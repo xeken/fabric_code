@@ -1,5 +1,7 @@
 [//]: # (SPDX-License-Identifier: CC-BY-4.0)
 
+## npm - v : 10.5.0 | node -v : 18.20.2
+
 # Hyperledger Fabric Samples
 
 [![Build Status](https://dev.azure.com/Hyperledger/Fabric-Samples/_apis/build/status/Fabric-Samples?branchName=main)](https://dev.azure.com/Hyperledger/Fabric-Samples/_build/latest?definitionId=28&branchName=main)
