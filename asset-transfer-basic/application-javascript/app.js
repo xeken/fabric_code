@@ -12,7 +12,7 @@ const path = require('path');
 const { buildCAClient, registerAndEnrollUser, enrollAdmin } = require('../../test-application/javascript/CAUtil.js');
 const { buildCCPOrg1, buildWallet } = require('../../test-application/javascript/AppUtil.js');
 
-const channelName = process.env.CHANNEL_NAME || 'mychannel';
+const channelName = process.env.CHANNEL_NAME || 'mychannel'; //createChannel default가 mychannel
 const chaincodeName = process.env.CHAINCODE_NAME || 'basic';
 
 const mspOrg1 = 'Org1MSP';
@@ -122,8 +122,10 @@ async function main() {
 			// Let's try a query type operation (function).
 			// This will be sent to just one peer and the results will be shown.
 			console.log('\n--> Evaluate Transaction: GetAllAssets, function returns all the current assets on the ledger');
-			let result = await contract.evaluateTransaction('GetAllAssets');
+			let result = await contract.evaluateTransaction('GetAllTransaction');
 			console.log(`*** Result: ${prettyJSONString(result.toString())}`);
+
+/*
 
 			// Now let's try to submit a transaction.
 			// This will be sent to both peers and if both peers endorse the transaction, the endorsed proposal will be sent
@@ -168,9 +170,9 @@ async function main() {
 			console.log('\n--> Evaluate Transaction: ReadAsset, function returns "asset1" attributes');
 			result = await contract.evaluateTransaction('ReadAsset', 'asset1');
 			console.log(`*** Result: ${prettyJSONString(result.toString())}`);
+
+*/
 		} finally {
-			// Disconnect from the gateway when the application is closing
-			// This will close all connections to the network
 			gateway.disconnect();
 		}
 	} catch (error) {

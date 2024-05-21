@@ -11,6 +11,7 @@ function print() {
 
 function createNetwork() {
   print "Creating 3 Org network"
+  #./network.sh up createChannel -ca
   ./network.sh up createChannel -c mychannel -ca
 }
 
@@ -31,10 +32,11 @@ set -x
 # Run Javascript application
 createNetwork
 print "Initializing Javascript application"
+deployChaincode
 pushd ../asset-transfer-basic/application-javascript
+rm -rf ./wallet
 npm install
 print "Executing app.js"
-rm -rf ./wallet
 node app.js
 popd
 
