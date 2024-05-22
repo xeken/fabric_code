@@ -97,7 +97,7 @@ class AssetTransfer extends Contract {
         ];
 
         const watchedList = [
-            { Address:  '0x9'  },
+            { Address: '0x9' },
             { Address: '0x91' }
         ];
 
@@ -107,7 +107,7 @@ class AssetTransfer extends Contract {
         }
         for (const wl of watchedList) {
             wl.docType = 'watchedList';
-            await ctx.stub.putState(wl.Address, Buffer.from(stringify(sortKeysRecursive(wl))));
+            await ctx.stub.putState('wl_' + wl.Address, Buffer.from(stringify(sortKeysRecursive(wl))));
         }
         for (const tx of transactions) {
             tx.docType = 'transaction';
@@ -122,58 +122,79 @@ class AssetTransfer extends Contract {
     async GetUser(ctx, address){
         const assetJSON = await ctx.stub.getState(address); // get the asset from chaincode state
         if (!assetJSON || assetJSON.length === 0) {
-            throw new Error(`The ${address} does not exist`);
+            throw new Error(`The user:${address} does not exist`);
         }
         return assetJSON.toString();
     }
 
     async GetAllUsers(ctx){
-        const allTransactions = [];
+        const allUsers = [];
         const iterator = await ctx.stub.getStateByRange('', ''); 
         //getStateByRange를 제대로 사용하고 싶으면 key:json set의 key값을 range가능한 값으로 재정의하여야 함.
         let result = await iterator.next();
 
         do{
             const object = Buffer.from(result.value.value.toString()).toString('utf8');
+
+            if(object.includes('"docType":"user"'))
+                allUsers.push(object)
+            
+            /* @NOTE JSON.parse는 항상 오류가 발생됩니다?
             let record;
-            console.log(`Value: ${object}`);
             try{
-                record = JSON.parse(object);
-                // if (record.doctype === 'transaction') 
-                //     allTransactions.push(record);
+                record = JSON.parse(object); 
+                if (record.doctype === "transaction")
+                    allUsers.push(record);
             } catch (err) { 
                 console.log(err); 
                 record = object;
             }
-            allTransactions.push(record)
+            */
+
+            result = await iterator.next();
+        } while (!result.done)
+
+        return JSON.stringify(allUsers);
+    }
+
+    async GetWatchedList(ctx)
+    {
+        const allTransactions = [];
+        const iterator = await ctx.stub.getStateByRange('', ''); 
+        let result = await iterator.next();
+
+        do{
+            const object = Buffer.from(result.value.value.toString()).toString('utf8');
+
+            if(object.includes('"docType":"watchedList"'))
+                allTransactions.push(object)
+
             result = await iterator.next();
         } while (!result.done)
 
         return JSON.stringify(allTransactions);
     }
 
-    async GetTransaction(ctx){}
+    async GetTransaction(ctx, txId){
+        const assetJSON = await ctx.stub.getState(txId); 
+        if (!assetJSON || assetJSON.length === 0) {
+            throw new Error(`The TxID:${txId} does not exist`);
+        }
+        return assetJSON.toString();
+    }
     
     async GetAllTransaction(ctx)
     {
         const allTransactions = [];
         const iterator = await ctx.stub.getStateByRange('', ''); 
-        //getStateByRange를 제대로 사용하고 싶으면 key:json set의 key값을 range가능한 값으로 재정의하여야 함.
         let result = await iterator.next();
 
         do{
             const object = Buffer.from(result.value.value.toString()).toString('utf8');
-            let record;
-            
-            try{
-                record = JSON.parse(object);
-                // if (record.doctype === 'transaction') 
-                //     allTransactions.push(record);
-            } catch (err) { 
-                console.log(err); 
-                record = object;
-            }
-            allTransactions.push(record)
+
+            if(object.includes('"docType":"transaction"'))
+                allTransactions.push(object)
+
             result = await iterator.next();
         } while (!result.done)
 
@@ -181,7 +202,10 @@ class AssetTransfer extends Contract {
     }
     async UpdateUser(){}
 
-    async UpdateWatchList(ctx, action, listedAddress){} // parameter로 action을 받으면? add or remove등
+    //async UpdateWatchList(ctx, action, listedAddress){} // parameter로 action을 받으면? add or remove등
+    async AddWatchList(ctx, listedAddress) {}
+
+    async RemoveWatchList(ctx, listedAddress) {}
     
     async UpdateTransaction(){}
     //User와 Transaction에 대한 delete는 없어야 하는게 맞는지
@@ -196,6 +220,7 @@ class AssetTransfer extends Contract {
     }
 
 
+    
 /* 이하 원본 트랜잭션 코드,주석 참고용 */
 
     // CreateAsset issues a new asset to the world state with given details.
