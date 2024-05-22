@@ -9,7 +9,9 @@
 // Deterministic JSON.stringify()
 const stringify  = require('json-stringify-deterministic');
 const sortKeysRecursive  = require('sort-keys-recursive');
+const crypto = require('crypto');
 const { Contract } = require('fabric-contract-api');
+const { send } = require('process');
 
 class AssetTransfer extends Contract {
 
@@ -183,7 +185,7 @@ class AssetTransfer extends Contract {
         return assetJSON.toString();
     }
     
-    async GetAllTransaction(ctx)
+    async GetAllTransactions(ctx)
     {
         const allTransactions = [];
         const iterator = await ctx.stub.getStateByRange('', ''); 
@@ -200,7 +202,24 @@ class AssetTransfer extends Contract {
 
         return JSON.stringify(allTransactions);
     }
-    async UpdateUser(){}
+
+    async UpdateUser(ctx, address,property, value){
+        const rawJson = await this.GetUser(ctx, id);
+        const user = JSON.parse(rawJson);
+
+        switch(property){
+            case 'Balance' : { break; }
+            case 'Age' : { break; }
+            case 'Gender' : { break; }
+            case 'Job' : { break; }
+            case 'Status' : { break; }
+            default: {
+
+            } 
+        }
+
+        return ctx.stub.putState(address, Buffer.from(stringify(sortKeysRecursive(user))));
+    }
 
     //async UpdateWatchList(ctx, action, listedAddress){} // parameter로 action을 받으면? add or remove등
     async AddWatchList(ctx, listedAddress) {}
@@ -209,18 +228,91 @@ class AssetTransfer extends Contract {
     
     async UpdateTransaction(){}
     //User와 Transaction에 대한 delete는 없어야 하는게 맞는지
-    async Transfer(ctx, senderAddress, receiverAddress, amount){
-        const assetString = await this.GetUser(ctx, id);
-        const asset = JSON.parse(assetString);
-        const oldOwner = asset.Owner;
-        asset.Owner = newOwner;
-        // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
-        await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(asset))));
-        return oldOwner;
+    
+    async Transfer(ctx, senderAddress, receiverAddress, amount){ // return값은 boolean으로
+        const sender = await JSON.parse(this.GetUser(ctx, senderAddress));
+        const receiver = await JSON.parse(this.GetUser(ctx, receiverAddress));
+        const ledger = await JSON.parse(this.GetAllTransactions);
+        
+        //Balance 체크는 웹에서 GetUser를 통해 먼저 검증할 것 -> 트랜잭션 생성문제. 여기서는 ST만 filtering하는 걸로 
+
+        let isSt = false;
+        let stCode = 0;
+        let stMsg = '';
+        
+        // 아래 CheckCode 함수를 병렬처리할 수 있는 방법?
+        if(this.CheckCode101(ledger, sender.Address, sender.Txs)){
+            isSt = true;
+            stCode = 101;
+            stMsg = '[1일] 합산 [1천만 원] 이상의 가상자산 입금 후 혹은 동시에 당일 [1일] 합산 [1천만 원] 이상 가상자산 출금'
+        }
+        
+        const newTransaction = {
+            Amount: amount, /* number */
+            Sender: senderAddress, /* sender's id */
+            Receiver: receiverAddress, /* receiver's id */
+            Timestamp: Date.now(),
+            IsSt: isSt, /* boolean */
+            StCode: stCode, /* ST Rule Set Number */
+            StMsg: stMsg,
+            StSvrt: 0, /* 0: 미해당, 1: 경고 후 통과, 9: 거래 불가 */
+        };
+
+        const hash = crypto.createHash('sha256').update(JSON.stringify(newTransaction)).digest('hex');
+        newTransaction.TxId = hash;
+        
+        sender.Txs.push(newTransaction.TxId);
+        receiver.Txs.push(newTransaction.TxId);
+
+        await ctx.stub.putState(sender.Address, Buffer.from(stringify(sortKeysRecursive(sender))));
+        await ctx.stub.putState(receiver.Address, Buffer.from(stringify(sortKeysRecursive(receiver))));
+        await ctx.stub.putState(newTransaction.TxId, Buffer.from(stringify(sortKeysRecursive(newTransaction))));
+        return true;
     }
 
+    // ST101: [1일] 합산 [1천만 원] 이상의 가상자산 입금 후 혹은 동시에 당일 [1일] 합산 [1천만 원] 이상 가상자산 출금
+    async CheckCode101(ledger, senderAddress, senderTxs) { 
 
-    
+        if(senderTxs.length == 0) return false;
+
+        let index = senderTxs.length - 1;
+        let tx = ledger[senderTxs[i]];
+        
+        const lastTimestamp = tx.Timestamp;
+        let sendedAmount = 0; 
+        let receivedAmount = 0;
+
+        while(index > 0){
+            //  await this.GetTransaction(senderTxs[i])
+            tx = ledger[senderTxs[--i]];
+
+            if((tx.Timestamp - lastTimestamp) >= 86400000)
+                break;
+
+            if(tx.Sender === senderAddress)
+                sendedAmount += tx.Amount;
+            else 
+                receivedAmount += tx.Amount
+        }
+
+        return (sendedAmount >= 10000000 && receivedAmount >= 10000000);
+    }
+
+    CheckCode102() {
+
+        return false;
+    }
+
+    CheckCode105() {
+
+        return false;
+    }
+
+    CheckCode106() {
+
+        return false;
+    }
+
 /* 이하 원본 트랜잭션 코드,주석 참고용 */
 
     // CreateAsset issues a new asset to the world state with given details.
