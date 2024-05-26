@@ -98,7 +98,7 @@ class AssetTransfer extends Contract {
             }
         ];
 
-        const watchedList = [
+        const watchList = [
             { Address: '0x9' },
             { Address: '0x91' }
         ];
@@ -107,8 +107,8 @@ class AssetTransfer extends Contract {
             user.docType = 'user'; // db를 사용할때 필요한 속성
             await ctx.stub.putState(user.Address, Buffer.from(stringify(sortKeysRecursive(user))));
         }
-        for (const wl of watchedList) {
-            wl.docType = 'watchedList';
+        for (const wl of watchList) {
+            wl.docType = 'watchList';
             await ctx.stub.putState('wl_' + wl.Address, Buffer.from(stringify(sortKeysRecursive(wl))));
         }
         for (const tx of transactions) {
@@ -139,7 +139,7 @@ class AssetTransfer extends Contract {
             const object = Buffer.from(result.value.value.toString()).toString('utf8');
 
             if(object.includes('"docType":"user"'))
-                allUsers.push(object)
+                allUsers.push(JSON.parse(object));
             
             /* @NOTE JSON.parse는 항상 오류가 발생됩니다?
             let record;
@@ -159,22 +159,22 @@ class AssetTransfer extends Contract {
         return JSON.stringify(allUsers);
     }
 
-    async GetWatchedList(ctx)
+    async GetWatchList(ctx)
     {
-        const allTransactions = [];
+        const watchList = [];
         const iterator = await ctx.stub.getStateByRange('', ''); 
         let result = await iterator.next();
 
         do{
             const object = Buffer.from(result.value.value.toString()).toString('utf8');
-
-            if(object.includes('"docType":"watchedList"'))
-                allTransactions.push(object)
-
+            
+            if(object.includes('"docType":"watchList"'))
+                watchList.push(JSON.parse(object))
+            
             result = await iterator.next();
         } while (!result.done)
 
-        return JSON.stringify(allTransactions);
+        return JSON.stringify(watchList);
     }
 
     async GetTransaction(ctx, txId){
@@ -195,7 +195,7 @@ class AssetTransfer extends Contract {
             const object = Buffer.from(result.value.value.toString()).toString('utf8');
 
             if(object.includes('"docType":"transaction"'))
-                allTransactions.push(object)
+                allTransactions.push(JSON.parse(object));
 
             result = await iterator.next();
         } while (!result.done)
@@ -230,9 +230,9 @@ class AssetTransfer extends Contract {
     //User와 Transaction에 대한 delete는 없어야 하는게 맞는지
     
     async Transfer(ctx, senderAddress, receiverAddress, amount){ // return값은 boolean으로
-        const sender = await JSON.parse(this.GetUser(ctx, senderAddress));
-        const receiver = await JSON.parse(this.GetUser(ctx, receiverAddress));
-        const ledger = await JSON.parse(this.GetAllTransactions);
+        const sender = JSON.parse(await this.GetUser(ctx, senderAddress));
+        const receiver = JSON.parse(await this.GetUser(ctx, receiverAddress));
+        const ledger = JSON.parse(await this.GetAllTransactions(ctx));
         
         //Balance 체크는 웹에서 GetUser를 통해 먼저 검증할 것 -> 트랜잭션 생성문제. 여기서는 ST만 filtering하는 걸로 
 
@@ -240,7 +240,7 @@ class AssetTransfer extends Contract {
         let stCode = 0;
         let stMsg = '';
         
-        // 아래 CheckCode 함수를 병렬처리할 수 있는 방법?
+        // 아래 CheckCode 함수를 병렬처리할 수 있는 방법???
         if(this.CheckCode101(ledger, sender.Address, sender.Txs)){
             isSt = true;
             stCode = 101;
@@ -256,17 +256,18 @@ class AssetTransfer extends Contract {
             StCode: stCode, /* ST Rule Set Number */
             StMsg: stMsg,
             StSvrt: 0, /* 0: 미해당, 1: 경고 후 통과, 9: 거래 불가 */
+            docType: "transaction"
         };
 
         const hash = crypto.createHash('sha256').update(JSON.stringify(newTransaction)).digest('hex');
         newTransaction.TxId = hash;
         
-        sender.Txs.push(newTransaction.TxId);
-        receiver.Txs.push(newTransaction.TxId);
+        sender.Txs.push(hash);
+        receiver.Txs.push(hash);
 
         await ctx.stub.putState(sender.Address, Buffer.from(stringify(sortKeysRecursive(sender))));
         await ctx.stub.putState(receiver.Address, Buffer.from(stringify(sortKeysRecursive(receiver))));
-        await ctx.stub.putState(newTransaction.TxId, Buffer.from(stringify(sortKeysRecursive(newTransaction))));
+        await ctx.stub.putState(hash, Buffer.from(stringify(sortKeysRecursive(newTransaction))));
         return true;
     }
 
@@ -276,17 +277,19 @@ class AssetTransfer extends Contract {
         if(senderTxs.length == 0) return false;
 
         let index = senderTxs.length - 1;
-        let tx = ledger[senderTxs[i]];
-        
+        //let tx = ledger[senderTxs[i]];
+        let tx = ledger.filter(l => l.TxId === senderTxs[index]);    
+        // tx  = ledger.TxId == senderTxs[i] 인 오브젝트
+        // 배열 안 배열 안
         const lastTimestamp = tx.Timestamp;
         let sendedAmount = 0; 
         let receivedAmount = 0;
 
         while(index > 0){
             //  await this.GetTransaction(senderTxs[i])
-            tx = ledger[senderTxs[--i]];
-
-            if((tx.Timestamp - lastTimestamp) >= 86400000)
+            //tx = ledger[senderTxs[--i]];
+            tx = ledger.filter(l => l.TxId === senderTxs[--index]); 
+            if((tx.Timestamp - lastTimestamp) >= 86400000) // 24시간
                 break;
 
             if(tx.Sender === senderAddress)

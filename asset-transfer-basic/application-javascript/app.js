@@ -115,6 +115,7 @@ async function main() {
 			// This type of transaction would only be run once by an application the first time it was started after it
 			// deployed the first time. Any updates to the chaincode deployed later would likely not need to run
 			// an "init" type function.
+
 			console.log('\n--> Submit Transaction: InitLedger, function creates the initial set of assets on the ledger');
 			await contract.submitTransaction('InitLedger');
 			console.log('*** Result: committed');
@@ -126,7 +127,10 @@ async function main() {
 			console.log(`*** Result: ${prettyJSONString(result.toString())}`);
 
 			console.log('\n--> 트랜스퍼');
-			await contract.submitTransaction('Transfer', '0x9', '0x91', '1000');
+			await contract.submitTransaction('Transfer', '0x9', '0x91', '1000').catch((err) => {
+				console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+				console.log(err.responses);
+			});
 			console.log('*** Result: committed');
 
 /*
