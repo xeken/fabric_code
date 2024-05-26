@@ -127,6 +127,7 @@ async function main() {
 
 			console.log('\n--> 트랜스퍼');
 			await contract.submitTransaction('Transfer', '0x9', '0x91', '1000');
+			// tt
 			console.log('*** Result: committed');
 
 /*
