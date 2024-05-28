@@ -204,8 +204,7 @@ class AssetTransfer extends Contract {
     }
 
     async UpdateUser(ctx, address,property, value){
-        const rawJson = await this.GetUser(ctx, id);
-        const user = JSON.parse(rawJson);
+        const user = JSON.parse(await this.GetUser(ctx, id));
 
         switch(property){
             case 'Balance' : { break; }
@@ -240,8 +239,13 @@ class AssetTransfer extends Contract {
         let stCode = 0;
         let stMsg = '';
         
+        if(this.CheckCode112(ledger, sender)){
+            isSt = true;
+            stCode = 112;
+            stMsg = '직업이 [무직, 학생, 종교인]인 고객 [1일] 합산 [5천만 원] 이상 가상자산 입금'
+        }
         // 아래 CheckCode 함수를 병렬처리할 수 있는 방법???
-        if(this.CheckCode101(ledger, sender.Address, sender.Txs)){
+        else if(this.CheckCode101(ledger, sender.Address, sender.Txs)){
             isSt = true;
             stCode = 101;
             stMsg = '[1일] 합산 [1천만 원] 이상의 가상자산 입금 후 혹은 동시에 당일 [1일] 합산 [1천만 원] 이상 가상자산 출금'
@@ -288,14 +292,15 @@ class AssetTransfer extends Contract {
         while(index > 0){
             //  await this.GetTransaction(senderTxs[i])
             //tx = ledger[senderTxs[--i]];
-            tx = ledger.filter(l => l.TxId === senderTxs[--index]); 
-            if((tx.Timestamp - lastTimestamp) >= 86400000) // 24시간
+            if((tx.Timestamp - lastTimestamp) >= 86400000) // 24 * 60 * 60 * 1000
                 break;
 
             if(tx.Sender === senderAddress)
                 sendedAmount += tx.Amount;
             else 
-                receivedAmount += tx.Amount
+                receivedAmount += tx.Amount;
+ 
+            tx = ledger.filter(l => l.TxId === senderTxs[--index]); 
         }
 
         return (sendedAmount >= 10000000 && receivedAmount >= 10000000);
@@ -314,6 +319,28 @@ class AssetTransfer extends Contract {
     CheckCode106() {
 
         return false;
+    }
+
+    //직업이 [무직, 학생, 종교인]인 고객 [1일] 합산 [5천만 원] 이상 가상자산 입금
+    CheckCode112(ledger, sender){
+        if(sender.Txs.length == 0 || 
+            (!['무직', '학생', '종교인'].includes(sender.Job))) 
+            return false;
+
+        let index = sender.Txs.length - 1;
+        let tx = ledger.filter(l => l.TxId === sender.Txs[index]);    
+        const lastTimestamp = tx.Timestamp;
+        let totalAmount = 0;
+        while(index > 0){
+            if((tx.Timestamp - lastTimestamp) >= 86400000) // 24 * 60 * 60 * 1000
+                break;
+            if(tx.receiverAddress === sender.Address)    
+                totalAmount += tx.Amount;
+            
+            tx = ledger.filter(l => l.TxId === sender.Txs[--index]); 
+        }
+
+        return (totalAmount >= 50000000)
     }
 
 /* 이하 원본 트랜잭션 코드,주석 참고용 */
