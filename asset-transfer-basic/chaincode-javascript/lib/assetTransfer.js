@@ -235,20 +235,61 @@ class AssetTransfer extends Contract {
         
         //Balance 체크는 웹에서 GetUser를 통해 먼저 검증할 것 -> 트랜잭션 생성문제. 여기서는 ST만 filtering하는 걸로 
 
-        let isSt = false;
         let stCode = 0;
         let stMsg = '';
         
-        if(this.CheckCode112(ledger, sender)){
-            isSt = true;
-            stCode = 112;
-            stMsg = '직업이 [무직, 학생, 종교인]인 고객 [1일] 합산 [5천만 원] 이상 가상자산 입금'
-        }
         // 아래 CheckCode 함수를 병렬처리할 수 있는 방법???
+        if(this.CheckCode119()){
+            stCode = 119;
+            stMsg = '요주인물의 1일 합산, 3백만원 이상의 가상자산 출금'
+        }
+        else if(this.CheckCode120()){
+            stCode = 120;
+            stMsg = '휴면고객에게 1백만원 이상 가상자산 입금'
+        }
+        else if(this.CheckCode111()){
+            stCode = 111;
+            stMsg = '7일간 건당 1백만원 이상의 가상자산을 5개 이상의 지갑으로 출금'
+        }
+        else if(this.CheckCode112(ledger, sender)){
+            stCode = 112;
+            stMsg = '직업이 무직, 학생, 종교인인 고객에게 1일 합산 5천만원 이상 가상자산 입금'
+        }
+        else if(this.CheckCode113()){
+            stCode = 113;
+            stMsg = '무직, 학생, 종교인인 고객이 1일 합산 3천만원 이상의 가상자산 출금'
+        }
+        else if(this.CheckCode114()){
+            stCode = 114;
+            stMsg = '만 65세 이상의 고객이 3천만원 이상의 가상자산을 1일 3회 이상 입금'
+        }
+        else if(this.CheckCode115()){
+            stCode = 115;
+            stMsg = '만 65세 이상의 고객이 1천만원 이상의 가상자산을 1일 2회 이상 출금'
+        }
+        else if(this.CheckCode121()){
+            stCode = 121;
+            stMsg = '5백만원 이상의 가상자산 입금 후 30분 이내에 출금'
+        }
         else if(this.CheckCode101(ledger, sender.Address, sender.Txs)){
-            isSt = true;
             stCode = 101;
-            stMsg = '[1일] 합산 [1천만 원] 이상의 가상자산 입금 후 혹은 동시에 당일 [1일] 합산 [1천만 원] 이상 가상자산 출금'
+            stMsg = '1일 합산 1천만원 이상의 가상자산 입금 후 혹은 동시에, 1일 합산 1천만원 이상 가상자산 출금'
+        }
+        else if(this.CheckCode102()){
+            stCode = 102;
+            stMsg = '1일 합산 5회 이상 100만원 이상의 가상자산 출금'
+        }
+        else if(this.CheckCode105()){
+            stCode = 105;
+            stMsg = '1일 합산 10회 이상 가상자산 입금'
+        }
+        else if(this.CheckCode106()){
+            stCode = 106;
+            stMsg = '1일 합산 10회 이상 가상자산 출금'
+        }
+        else if(this.CheckCode110()){
+            stCode = 110;
+            stMsg = '7일간 건당 1백만원 이상, 5개 이상의 지갑 주소에서 가상자산 입금'
         }
         
         const newTransaction = {
@@ -256,7 +297,7 @@ class AssetTransfer extends Contract {
             Sender: senderAddress, /* sender's id */
             Receiver: receiverAddress, /* receiver's id */
             Timestamp: Date.now(),
-            IsSt: isSt, /* boolean */
+            IsSt: stCode != 0, /* boolean */
             StCode: stCode, /* ST Rule Set Number */
             StMsg: stMsg,
             StSvrt: 0, /* 0: 미해당, 1: 경고 후 통과, 9: 거래 불가 */
@@ -275,8 +316,8 @@ class AssetTransfer extends Contract {
         return true;
     }
 
-    // ST101: [1일] 합산 [1천만 원] 이상의 가상자산 입금 후 혹은 동시에 당일 [1일] 합산 [1천만 원] 이상 가상자산 출금
-    async CheckCode101(ledger, senderAddress, senderTxs) { 
+    //[1일] 합산 [1천만 원] 이상의 가상자산 입금 후 혹은 동시에 당일 [1일] 합산 [1천만 원] 이상 가상자산 출금
+    CheckCode101(ledger, senderAddress, senderTxs) { 
 
         if(senderTxs.length == 0) return false;
 
@@ -306,17 +347,33 @@ class AssetTransfer extends Contract {
         return (sendedAmount >= 10000000 && receivedAmount >= 10000000);
     }
 
+    //[1일] 합산 [5회] 이상 [100만 원] 이상의 가상자산 출금
     CheckCode102() {
+
 
         return false;
     }
 
+    //[1일] 합산 [10회] 이상 가상자산 입금
     CheckCode105() {
 
         return false;
     }
 
+    //[1일] 합산 [10회] 이상 가상자산 출금
     CheckCode106() {
+
+        return false;
+    }
+
+    //한 개의 지갑주소에 [7일]간 건당 [1백만 원] 이상이며 합산 [5개] 이상의 지갑 주소에서 가상자산 입금
+    CheckCode110(){
+
+        return false;
+    }
+
+    //한 개의 지갑주소에서 [7일]간 건당 [1백만 원] 이상이며 합산 [5개] 이상의 지갑 주소로 가상자산 출금
+    CheckCode111(){
 
         return false;
     }
@@ -341,6 +398,41 @@ class AssetTransfer extends Contract {
         }
 
         return (totalAmount >= 50000000)
+    }
+
+    //직업이 [무직, 학생, 종교인]인 고객 [1일] 합산 [3천만 원] 이상 가상자산 출금
+    CheckCode113(){
+
+        return false;
+    }
+
+    //[만 65세] 이상의 고령 고객이 [3천만 원] 이상의 가상자산을 [1일]에 [3회] 이상 입금
+    CheckCode114(){
+
+        return false;
+    }
+
+    //[만 65세] 이상의 고령 고객이 [1천만 원] 이상 가상자산을 [1일]에 [2회] 이상 출금
+    CheckCode115(){
+
+        return false;
+    }
+
+    //WLF 요주의인물 리스트 고객이 [1일]에 합산 [3백만 원] 이상의 가상자산을 출금하는 경우
+    CheckCode119(){
+
+        return false;
+    }
+
+    //[휴면계정] 고객 [휴면상태]에게 [1백만 원] 이상 가상자산 입금
+    CheckCode120(){
+
+        return false;
+    }
+
+    //[1일]? [5백만 원] 이상 입금 후 [30분] 이내에 출금
+    CheckCode121(){
+
     }
 
 /* 이하 원본 트랜잭션 코드,주석 참고용 */
