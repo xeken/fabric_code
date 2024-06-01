@@ -10,8 +10,12 @@
 const stringify  = require('json-stringify-deterministic');
 const sortKeysRecursive  = require('sort-keys-recursive');
 const crypto = require('crypto');
+const base58 = require('bs58');
 const { Contract } = require('fabric-contract-api');
 const { send } = require('process');
+const { time } = require('console');
+
+const H24 = 86400000;
 
 class AssetTransfer extends Contract {
 
@@ -82,8 +86,8 @@ class AssetTransfer extends Contract {
                     Timestamp: '20240518100000',
                     IsSt: false, /* boolean */
                     StCode: 0, /* ST Rule Set Number */
-                    StMsg: '',
                     StSvrt: 0, /* 0: 경고 후 통과, 1: 거래 불가 */
+                    IsExcuted: true
             },
             {
                     TxId: '0xf4184fc596403b9d638783cf57adfe4c75cf6fbc91338530e9831e9e17',
@@ -93,40 +97,84 @@ class AssetTransfer extends Contract {
                     Timestamp: '20240518110000',
                     IsSt: true,
                     StCode: 101,
-                    StMsg: '[1일] 합산 [1천만 원] 이상의 가상자산 입금 후 [24시간] 이내 [1일] 합산 [1천만 원] 이상 가상자산 출금',
-                    StSvrt: 0
+                    StSvrt: 0,
+                    IsExcuted: false
             }
         ];
 
         const watchList = [
-            { Address: '0x9' },
-            { Address: '0x91' }
+            {
+                Name: "김정은",
+                Age: 40,
+                Gender: "M",
+                nation: "NP",
+                Job: "정치인",
+            },
+            {
+                Name: "오사마빈라덴",
+                Age: 60,
+                Gender: "M",
+                nation: "IS",
+                Job: "테러리스트",
+            }
         ];
 
         for (const user of users) {
             user.docType = 'user'; // db를 사용할때 필요한 속성
             await ctx.stub.putState(user.Address, Buffer.from(stringify(sortKeysRecursive(user))));
         }
-        for (const wl of watchList) {
-            wl.docType = 'watchList';
-            await ctx.stub.putState('wl_' + wl.Address, Buffer.from(stringify(sortKeysRecursive(wl))));
+        for( const index in watchList){
+            watchList[index].docType ='watchList';  
+            await ctx.stub.putState(`wl${index}`, Buffer.from(stringify(sortKeysRecursive(watchList[index]))));
         }
+        // for (const wl of watchList) {
+        //     wl.docType = 'watchList';
+        //     await ctx.stub.putState(, Buffer.from(stringify(sortKeysRecursive(wl))));
+        // }
         for (const tx of transactions) {
             tx.docType = 'transaction';
             await ctx.stub.putState(tx.TxId, Buffer.from(stringify(sortKeysRecursive(tx))));
         }
     }
 
-    // Get ↔ Set or CRUD등 Convention 정의 필요 
+    async AddUser(ctx, name, age, gender, job){ 
+        // wlf 체크
+        const wlf = JSON.parse(this.GetWatchList(ctx));
+        for(const index in wlf) {
+            const info = wlf[index];
+            if((name === info.Name) && (age === info.Age) &&
+                (gender === info.Gender) && (job === info.Job)){
+                return false;
+            }
+        }​
+        
+        const timestamp = Date.now();
+        const user = {
+            Owner: name,
+            Balance: 0,
+            Age: age,
+            Gender: gender,
+            Job: job,
+            Txs: [],
+            Status: 0,
+            CreateDt: timestamp,
+            UpdateDt: timestamp,
+        };
 
-    async AddUser(){ }
+        const hash = base58.encode(crypto.createHash('sha256').update(JSON.stringify(user)).digest('hex'));
+        user.Address = hash;
+
+        await ctx.stub.putState(hash, Buffer.from(stringify(sortKeysRecursive(user))));
+        return true;
+    }
 
     async GetUser(ctx, address){
-        const assetJSON = await ctx.stub.getState(address); // get the asset from chaincode state
-        if (!assetJSON || assetJSON.length === 0) {
-            throw new Error(`The user:${address} does not exist`);
+        const user = await ctx.stub.getState(address); // get the asset from chaincode state
+        if (!user || user.length === 0) {
+            //throw new Error(`The user:${address} does not exist`);
+            return false;
         }
-        return assetJSON.toString();
+        return user.toString();
     }
 
     async GetAllUsers(ctx){
@@ -178,11 +226,12 @@ class AssetTransfer extends Contract {
     }
 
     async GetTransaction(ctx, txId){
-        const assetJSON = await ctx.stub.getState(txId); 
-        if (!assetJSON || assetJSON.length === 0) {
-            throw new Error(`The TxID:${txId} does not exist`);
+        const tx = await ctx.stub.getState(txId); 
+        if (!tx || tx.length === 0) {
+            //throw new Error(`The TxID:${txId} does not exist`);
+            return false;
         }
-        return assetJSON.toString();
+        return tx.toString();
     }
     
     async GetAllTransactions(ctx)
@@ -207,27 +256,57 @@ class AssetTransfer extends Contract {
         const user = JSON.parse(await this.GetUser(ctx, id));
 
         switch(property){
-            case 'Balance' : { break; }
-            case 'Age' : { break; }
-            case 'Gender' : { break; }
-            case 'Job' : { break; }
-            case 'Status' : { break; }
+            case 'Balance' : { 
+                user.Balance = value;
+                break; 
+            }
+            case 'Age' : { 
+                user.Age = value;
+                break; 
+            }
+            case 'Gender' : { 
+                user.Gender = value;
+                break; 
+            }
+            case 'Job' : { 
+                user.Job = value;
+                break; 
+            }
+            case 'Status' : { 
+                user.Status = value;
+                break; 
+            }
             default: {
-
+                break;
             } 
         }
 
-        return ctx.stub.putState(address, Buffer.from(stringify(sortKeysRecursive(user))));
+        ctx.stub.putState(address, Buffer.from(stringify(sortKeysRecursive(user))));
+
+        return true;
     }
 
-    //async UpdateWatchList(ctx, action, listedAddress){} // parameter로 action을 받으면? add or remove등
-    async AddWatchList(ctx, listedAddress) {}
+    async ExcuteSTransaction(ctx, txId){
+        const tx = JSON.parse(await this.GetTransaction(ctx, txId));
+        const sender = JSON.parse(await this.GetUser(ctx, tx.Sender));
+        const receiver = JSON.parse(await this.GetUser(ctx, tx.Receiver));
 
-    async RemoveWatchList(ctx, listedAddress) {}
-    
-    async UpdateTransaction(){}
-    //User와 Transaction에 대한 delete는 없어야 하는게 맞는지
-    
+        tx.IsExcuted = true;
+        tx.Timestamp = Date.now();
+
+        if(sender.Balance < tx.Amount)
+            return false;
+        
+        sender.Balance -= tx.Amount;
+        receiver.Balance += tx.Amount;
+
+        ctx.stub.putState(txId, Buffer.from(stringify(sortKeysRecursive(tx))));
+        ctx.stub.putState(sender.Address, Buffer.from(stringify(sortKeysRecursive(sender))));
+        ctx.stub.putState(receiver.Address, Buffer.from(stringify(sortKeysRecursive(receiver))));
+
+        return true;
+    }
+
     async Transfer(ctx, senderAddress, receiverAddress, amount){ // return값은 boolean으로
         const sender = JSON.parse(await this.GetUser(ctx, senderAddress));
         const receiver = JSON.parse(await this.GetUser(ctx, receiverAddress));
@@ -236,60 +315,46 @@ class AssetTransfer extends Contract {
         //Balance 체크는 웹에서 GetUser를 통해 먼저 검증할 것 -> 트랜잭션 생성문제. 여기서는 ST만 filtering하는 걸로 
 
         let stCode = 0;
-        let stMsg = '';
         
         // 아래 CheckCode 함수를 병렬처리할 수 있는 방법???
         if(this.CheckCode119()){
             stCode = 119;
-            stMsg = '요주인물의 1일 합산, 3백만원 이상의 가상자산 출금'
         }
         else if(this.CheckCode120()){
             stCode = 120;
-            stMsg = '휴면고객에게 1백만원 이상 가상자산 입금'
         }
         else if(this.CheckCode111()){
             stCode = 111;
-            stMsg = '7일간 건당 1백만원 이상의 가상자산을 5개 이상의 지갑으로 출금'
         }
         else if(this.CheckCode112(ledger, sender)){
             stCode = 112;
-            stMsg = '직업이 무직, 학생, 종교인인 고객에게 1일 합산 5천만원 이상 가상자산 입금'
         }
         else if(this.CheckCode113()){
             stCode = 113;
-            stMsg = '무직, 학생, 종교인인 고객이 1일 합산 3천만원 이상의 가상자산 출금'
         }
         else if(this.CheckCode114()){
             stCode = 114;
-            stMsg = '만 65세 이상의 고객이 3천만원 이상의 가상자산을 1일 3회 이상 입금'
         }
         else if(this.CheckCode115()){
             stCode = 115;
-            stMsg = '만 65세 이상의 고객이 1천만원 이상의 가상자산을 1일 2회 이상 출금'
         }
         else if(this.CheckCode121()){
             stCode = 121;
-            stMsg = '5백만원 이상의 가상자산 입금 후 30분 이내에 출금'
         }
         else if(this.CheckCode101(ledger, sender.Address, sender.Txs)){
             stCode = 101;
-            stMsg = '1일 합산 1천만원 이상의 가상자산 입금 후 혹은 동시에, 1일 합산 1천만원 이상 가상자산 출금'
         }
         else if(this.CheckCode102()){
             stCode = 102;
-            stMsg = '1일 합산 5회 이상 100만원 이상의 가상자산 출금'
         }
         else if(this.CheckCode105()){
             stCode = 105;
-            stMsg = '1일 합산 10회 이상 가상자산 입금'
         }
         else if(this.CheckCode106()){
             stCode = 106;
-            stMsg = '1일 합산 10회 이상 가상자산 출금'
         }
         else if(this.CheckCode110()){
             stCode = 110;
-            stMsg = '7일간 건당 1백만원 이상, 5개 이상의 지갑 주소에서 가상자산 입금'
         }
         
         const newTransaction = {
@@ -299,12 +364,11 @@ class AssetTransfer extends Contract {
             Timestamp: Date.now(),
             IsSt: stCode != 0, /* boolean */
             StCode: stCode, /* ST Rule Set Number */
-            StMsg: stMsg,
             StSvrt: 0, /* 0: 미해당, 1: 경고 후 통과, 9: 거래 불가 */
             docType: "transaction"
         };
 
-        const hash = crypto.createHash('sha256').update(JSON.stringify(newTransaction)).digest('hex');
+        const hash = base58.encode(crypto.createHash('sha256').update(JSON.stringify(newTransaction)).digest('hex'));
         newTransaction.TxId = hash;
         
         sender.Txs.push(hash);
@@ -314,6 +378,7 @@ class AssetTransfer extends Contract {
         await ctx.stub.putState(receiver.Address, Buffer.from(stringify(sortKeysRecursive(receiver))));
         await ctx.stub.putState(hash, Buffer.from(stringify(sortKeysRecursive(newTransaction))));
         return true;
+        //트랜잭션을 생성하고, 이후 updateUser를 하는 과정에서 st를 체크, 0이면 amount 업데이트, 이외는 보류
     }
 
     //[1일] 합산 [1천만 원] 이상의 가상자산 입금 후 혹은 동시에 당일 [1일] 합산 [1천만 원] 이상 가상자산 출금
@@ -333,7 +398,7 @@ class AssetTransfer extends Contract {
         while(index > 0){
             //  await this.GetTransaction(senderTxs[i])
             //tx = ledger[senderTxs[--i]];
-            if((tx.Timestamp - lastTimestamp) >= 86400000) // 24 * 60 * 60 * 1000
+            if((tx.Timestamp - lastTimestamp) >= H24) // 24 * 60 * 60 * 1000
                 break;
 
             if(tx.Sender === senderAddress)
@@ -389,7 +454,7 @@ class AssetTransfer extends Contract {
         const lastTimestamp = tx.Timestamp;
         let totalAmount = 0;
         while(index > 0){
-            if((tx.Timestamp - lastTimestamp) >= 86400000) // 24 * 60 * 60 * 1000
+            if((tx.Timestamp - lastTimestamp) >= H24) // 24 * 60 * 60 * 1000
                 break;
             if(tx.receiverAddress === sender.Address)    
                 totalAmount += tx.Amount;
@@ -433,103 +498,6 @@ class AssetTransfer extends Contract {
     //[1일]? [5백만 원] 이상 입금 후 [30분] 이내에 출금
     CheckCode121(){
 
-    }
-
-/* 이하 원본 트랜잭션 코드,주석 참고용 */
-
-    // CreateAsset issues a new asset to the world state with given details.
-    async CreateAsset(ctx, id, color, size, owner, appraisedValue) {
-        const exists = await this.AssetExists(ctx, id);
-        if (exists) {
-            throw new Error(`The asset ${id} already exists`);
-        }
-
-        const asset = {
-            ID: id,
-            Color: color,
-            Size: size,
-            Owner: owner,
-            AppraisedValue: appraisedValue,
-        };
-        // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
-        await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(asset))));
-        return JSON.stringify(asset);
-    }
-
-    // ReadAsset returns the asset stored in the world state with given id.
-    async ReadAsset(ctx, id) {
-        const assetJSON = await ctx.stub.getState(id); // get the asset from chaincode state
-        if (!assetJSON || assetJSON.length === 0) {
-            throw new Error(`The asset ${id} does not exist`);
-        }
-        return assetJSON.toString();
-    }
-
-    // UpdateAsset updates an existing asset in the world state with provided parameters.
-    async UpdateAsset(ctx, id, color, size, owner, appraisedValue) {
-        const exists = await this.AssetExists(ctx, id);
-        if (!exists) {
-            throw new Error(`The asset ${id} does not exist`);
-        }
-
-        // overwriting original asset with new asset
-        const updatedAsset = {
-            ID: id,
-            Color: color,
-            Size: size,
-            Owner: owner,
-            AppraisedValue: appraisedValue,
-        };
-        // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
-        return ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(updatedAsset))));
-    }
-
-    // DeleteAsset deletes an given asset from the world state.
-    async DeleteAsset(ctx, id) {
-        const exists = await this.AssetExists(ctx, id);
-        if (!exists) {
-            throw new Error(`The asset ${id} does not exist`);
-        }
-        return ctx.stub.deleteState(id);
-    }
-
-    // AssetExists returns true when asset with given ID exists in world state.
-    async AssetExists(ctx, id) {
-        const assetJSON = await ctx.stub.getState(id);
-        return assetJSON && assetJSON.length > 0;
-    }
-
-    // TransferAsset updates the owner field of asset with given id in the world state.
-    async TransferAsset(ctx, id, newOwner) {
-        const assetString = await this.ReadAsset(ctx, id);
-        const asset = JSON.parse(assetString);
-        const oldOwner = asset.Owner;
-        asset.Owner = newOwner;
-        // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
-        await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(asset))));
-        return oldOwner;
-    }
-
-    // GetAllAssets returns all assets found in the world state.
-    async GetAllAssets(ctx) {
-        const allResults = [];
-        // range query with empty string for startKey and endKey does an open-ended query of all assets in the chaincode namespace.
-        const iterator = await ctx.stub.getStateByRange('', '');
-        let result = await iterator.next();
-        while (!result.done) {
-            console.log(result);
-            const strValue = Buffer.from(result.value.value.toString()).toString('utf8');
-            let record;
-            try {
-                record = JSON.parse(strValue);
-            } catch (err) {
-                console.log(err);
-                record = strValue;
-            }
-            allResults.push(record);
-            result = await iterator.next();
-        }
-        return JSON.stringify(allResults);
     }
 }
 
