@@ -3110,7 +3110,7 @@ class AssetTransfer extends Contract {
         return true;
     }
 
-    async Transfer(ctx, senderAddress, receiverAddress, amount){ // return값은 boolean으로
+    async Transfer(ctx, senderAddress, receiverAddress, amount){ 
         const sender = JSON.parse(await this.GetUser(ctx, senderAddress));
         const receiver = JSON.parse(await this.GetUser(ctx, receiverAddress));
         const ledger = JSON.parse(await this.GetAllTransactions(ctx));
@@ -3120,55 +3120,55 @@ class AssetTransfer extends Contract {
         let stCode = 0;
         let stSvrt = 0
         // 아래 CheckCode 함수를 병렬처리할 수 있는 방법???
-        if(this.CheckCode119()){
+        if(this.CheckCode119(ledger, sender, amount)){
             stCode = 119;
             stSvrt = 9;
         }
-        else if(this.CheckCode120()){
+        else if(this.CheckCode120(ledger, sender, amount)){
             stCode = 120;
             stSvrt = 9;
         }
-        else if(this.CheckCode111()){
+        else if(this.CheckCode111(ledger, sender, amount)){
             stCode = 111;
             stSvrt = 1;
         }
-        else if(this.CheckCode112(ledger, sender)){
+        else if(this.CheckCode112(ledger, sender, amount)){
             stCode = 112;
             stSvrt = 1;
         }
-        else if(this.CheckCode113(ledger, sender)){
+        else if(this.CheckCode113(ledger, sender, amount)){
             stCode = 113;
             stSvrt = 1;
         }
-        else if(this.CheckCode114(ledger, sender)){
+        else if(this.CheckCode114(ledger, sender, amount)){
             stCode = 114;
             stSvrt = 1;
         }
-        else if(this.CheckCode115()){
+        else if(this.CheckCode115(ledger, sender, amount)){
             stCode = 115;
             stSvrt = 1;
         }
-        else if(this.CheckCode121()){
+        else if(this.CheckCode121(ledger, sender, amount)){
             stCode = 121;
             stSvrt = 1;
         }
-        else if(this.CheckCode101(ledger, sender)){
+        else if(this.CheckCode101(ledger, sender, amount)){
             stCode = 101;
             stSvrt = 0;
         }
-        else if(this.CheckCode102()){
+        else if(this.CheckCode102(ledger, sender, amount)){
             stCode = 102;
             stSvrt = 0;
         }
-        else if(this.CheckCode105()){
+        else if(this.CheckCode105(ledger, sender, amount)){
             stCode = 105;
             stSvrt = 0;
         }
-        else if(this.CheckCode106()){
+        else if(this.CheckCode106(ledger, sender, amount)){
             stCode = 106;
             stSvrt = 0;
         }
-        else if(this.CheckCode110()){
+        else if(this.CheckCode110(ledger, sender, amount)){
             stCode = 110;
             stSvrt = 0;
         }
@@ -3200,14 +3200,18 @@ class AssetTransfer extends Contract {
     }
 
     //[1일] 합산 [1천만 원] 이상의 가상자산 입금 후 혹은 동시에 당일 [1일] 합산 [1천만 원] 이상 가상자산 출금
-    CheckCode101(ledger, sender) { 
+    CheckCode101(ledger, sender, amount) { 
 
-        if(sender.Txs.length == 0) return false;
+        if(sender.Txs.length == 0 ) return false;
 
         let index = sender.Txs.length - 1;
         let tx = ledger.filter(l => l.TxId === sender.Txs[index]);    
 
         const lastTimestamp = tx.Timestamp;
+
+        if(this.GetTimestamp() - lastTimestamp > H24)
+            return false;
+
         let sendedAmount = 0; 
         let receivedAmount = 0;
 
@@ -3227,38 +3231,94 @@ class AssetTransfer extends Contract {
     }
 
     //[1일] 합산 [5회] 이상 [100만 원] 이상의 가상자산 출금
-    CheckCode102() {
+    CheckCode102(ledger, sender, amount) {
+        if(sender.Txs.length == 0) 
+            return false;
 
+        let index = sender.Txs.length - 1;
+        let tx = ledger.filter(l => l.TxId === sender.Txs[index]);    
+        const lastTimestamp = tx.Timestamp;
 
-        return false;
+        if(this.GetTimestamp() - lastTimestamp > H24)
+            return false;
+
+        let count = 0;
+        while(index > 0){
+            if((tx.Timestamp - lastTimestamp) >= H24) 
+                break;
+            if((tx.senderAddress === sender.Address) && (tx.Amount >= 1000000))    
+                count ++;
+            
+            tx = ledger.filter(l => l.TxId === sender.Txs[--index]); 
+        }
+
+        return (count >= 5)
     }
 
     //[1일] 합산 [10회] 이상 가상자산 입금
-    CheckCode105() {
+    CheckCode105(ledger, sender, amount) {
+        if(sender.Txs.length == 0) 
+            return false;
 
-        return false;
+        let index = sender.Txs.length - 1;
+        let tx = ledger.filter(l => l.TxId === sender.Txs[index]);    
+        const lastTimestamp = tx.Timestamp;
+
+        if(this.GetTimestamp() - lastTimestamp > H24)
+            return false;
+
+        let count = 0;
+        while(index > 0){
+            if((tx.Timestamp - lastTimestamp) >= H24) 
+                break;
+            if((tx.receiverAddress === sender.Address) )    
+                count ++;
+            
+            tx = ledger.filter(l => l.TxId === sender.Txs[--index]); 
+        }
+
+        return (count >= 10)
     }
 
     //[1일] 합산 [10회] 이상 가상자산 출금
-    CheckCode106() {
+    CheckCode106(ledger, sender, amount) {
+        if(sender.Txs.length == 0) 
+            return false;
 
-        return false;
+        let index = sender.Txs.length - 1;
+        let tx = ledger.filter(l => l.TxId === sender.Txs[index]);    
+        const lastTimestamp = tx.Timestamp;
+
+        if(this.GetTimestamp() - lastTimestamp > H24)
+            return false;
+
+        let count = 0;
+        while(index > 0){
+            if((tx.Timestamp - lastTimestamp) >= H24) 
+                break;
+            if((tx.senderAddress === sender.Address) )    
+                count ++;
+            
+            tx = ledger.filter(l => l.TxId === sender.Txs[--index]); 
+        }
+
+        return (count >= 10)
     }
 
     //한 개의 지갑주소에 [7일]간 건당 [1백만 원] 이상이며 합산 [5개] 이상의 지갑 주소에서 가상자산 입금
-    CheckCode110(){
+    CheckCode110(ledger, sender, amount){
 
         return false;
     }
 
     //한 개의 지갑주소에서 [7일]간 건당 [1백만 원] 이상이며 합산 [5개] 이상의 지갑 주소로 가상자산 출금
-    CheckCode111(){
+    CheckCode111(ledger, sender, amount){
 
         return false;
     }
 
     //직업이 [무직, 학생, 종교인]인 고객 [1일] 합산 [5천만 원] 이상 가상자산 입금
-    CheckCode112(ledger, sender){
+    CheckCode112(ledger, sender, amount){
         if(sender.Txs.length == 0 || 
             (!['무직', '학생', '종교인'].includes(sender.Job))) 
             return false;
@@ -3266,6 +3326,10 @@ class AssetTransfer extends Contract {
         let index = sender.Txs.length - 1;
         let tx = ledger.filter(l => l.TxId === sender.Txs[index]);    
         const lastTimestamp = tx.Timestamp;
+
+        if(this.GetTimestamp() - lastTimestamp > H24)
+            return false;
+
         let totalAmount = 0;
         while(index > 0){
             if((tx.Timestamp - lastTimestamp) >= H24) // 24 * 60 * 60 * 1000
@@ -3280,14 +3344,21 @@ class AssetTransfer extends Contract {
     }
 
     //직업이 [무직, 학생, 종교인]인 고객 [1일] 합산 [3천만 원] 이상 가상자산 출금
-    CheckCode113(ledger, sender){
+    CheckCode113(ledger, sender, amount){
         if(sender.Txs.length == 0 || 
             (!['무직', '학생', '종교인'].includes(sender.Job))) 
             return false;
 
+        if(amount >= 30000000) 
+            return true;
+
         let index = sender.Txs.length - 1;
         let tx = ledger.filter(l => l.TxId === sender.Txs[index]);
         const lastTimestamp = tx.Timestamp;
+
+        if(this.GetTimestamp() - lastTimestamp > H24)
+            return false;
+
         let totalAmount = 0;
         while (index > 0) {
             if ((tx.Timestamp - lastTimestamp) >= H24) // 24 * 60 * 60 * 1000
@@ -3302,34 +3373,50 @@ class AssetTransfer extends Contract {
     }
 
     //[만 65세] 이상의 고령 고객이 [3천만 원] 이상의 가상자산을 [1일]에 [3회] 이상 입금
-    CheckCode114(ledger, sender){
+    CheckCode114(ledger, sender, amount){
         if(sender.Txs.length == 0 || sender.Age < 65) 
             return false;
 
+        let index = sender.Txs.length - 1;
+        let tx = ledger.filter(l => l.TxId === sender.Txs[index]);    
+        const lastTimestamp = tx.Timestamp;
 
-        return false;
+        if(this.GetTimestamp() - lastTimestamp > H24)
+            return false;
+
+        let count = 0;
+        while(index > 0){
+            if((tx.Timestamp - lastTimestamp) >= H24) 
+                break;
+            if((tx.receiverAddress === sender.Address) && (tx.Amount >= 30000000))    
+                count ++;
+            
+            tx = ledger.filter(l => l.TxId === sender.Txs[--index]); 
+        }
+
+        return (count >= 3)
     }
 
     //[만 65세] 이상의 고령 고객이 [1천만 원] 이상 가상자산을 [1일]에 [2회] 이상 출금
-    CheckCode115(){
+    CheckCode115(ledger, sender, amount){
 
         return false;
     }
 
     //WLF 요주의인물 리스트 고객이 [1일]에 합산 [3백만 원] 이상의 가상자산을 출금하는 경우
-    CheckCode119(){
+    CheckCode119(ledger, sender, amount){
 
         return false;
     }
 
     //[휴면계정] 고객 [휴면상태]에게 [1백만 원] 이상 가상자산 입금
-    CheckCode120(){
+    CheckCode120(ledger, sender, amount){
 
         return false;
     }
 
     //[1일]? [5백만 원] 이상 입금 후 [30분] 이내에 출금
-    CheckCode121(){
+    CheckCode121(ledger, sender, amount){
         
     }
 
