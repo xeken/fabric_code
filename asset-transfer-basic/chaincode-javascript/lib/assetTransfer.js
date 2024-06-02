@@ -3117,6 +3117,10 @@ class AssetTransfer extends Contract {
         
         //Balance 체크는 웹에서 GetUser를 통해 먼저 검증할 것 -> 트랜잭션 생성문제. 여기서는 ST만 filtering하는 걸로 
 
+        // sender와 receiver의 각 트랜잭션 정보를 가져오기
+        const senderTxs = sender.Txs.map(txId => ledger.find(tx => tx.TxId === txId));
+        const receiverTxs = receiver.Txs.map(txId => ledger.find(tx => tx.TxId === txId));
+        
         let stCode = 0;
         let stSvrt = 0
         // 아래 CheckCode 함수를 병렬처리할 수 있는 방법???
