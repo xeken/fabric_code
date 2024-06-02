@@ -2949,7 +2949,7 @@ class AssetTransfer extends Contract {
         //         return false;
         // }​
         
-        const timestamp = GetTimestamp();
+        const timestamp = this.GetTimestamp();
         const user = {
             Owner: name,
             Balance: 0,
@@ -3082,10 +3082,10 @@ class AssetTransfer extends Contract {
             } 
         }
 
-        user.UpdateDt = GetTimestamp();
+        user.UpdateDt = this.GetTimestamp();
 
         ctx.stub.putState(address, Buffer.from(stringify(sortKeysRecursive(user))));
-
+ 
         return true;
     }
 
@@ -3095,7 +3095,7 @@ class AssetTransfer extends Contract {
         const receiver = JSON.parse(await this.GetUser(ctx, tx.Receiver));
 
         tx.IsExecuted = true;
-        tx.Timestamp = GetTimestamp();
+        tx.Timestamp = this.GetTimestamp();
 
         if(sender.Balance < tx.Amount)
             return false;
@@ -3118,56 +3118,69 @@ class AssetTransfer extends Contract {
         //Balance 체크는 웹에서 GetUser를 통해 먼저 검증할 것 -> 트랜잭션 생성문제. 여기서는 ST만 filtering하는 걸로 
 
         let stCode = 0;
-        
+        let stSvrt = 0
         // 아래 CheckCode 함수를 병렬처리할 수 있는 방법???
         if(this.CheckCode119()){
             stCode = 119;
+            stSvrt = 9;
         }
         else if(this.CheckCode120()){
             stCode = 120;
+            stSvrt = 9;
         }
         else if(this.CheckCode111()){
             stCode = 111;
+            stSvrt = 1;
         }
         else if(this.CheckCode112(ledger, sender)){
             stCode = 112;
+            stSvrt = 1;
         }
-        else if(this.CheckCode113()){
+        else if(this.CheckCode113(ledger, sender)){
             stCode = 113;
+            stSvrt = 1;
         }
-        else if(this.CheckCode114()){
+        else if(this.CheckCode114(ledger, sender)){
             stCode = 114;
+            stSvrt = 1;
         }
         else if(this.CheckCode115()){
             stCode = 115;
+            stSvrt = 1;
         }
         else if(this.CheckCode121()){
             stCode = 121;
+            stSvrt = 1;
         }
-        else if(this.CheckCode101(ledger, sender.Address, sender.Txs)){
+        else if(this.CheckCode101(ledger, sender)){
             stCode = 101;
+            stSvrt = 0;
         }
         else if(this.CheckCode102()){
             stCode = 102;
+            stSvrt = 0;
         }
         else if(this.CheckCode105()){
             stCode = 105;
+            stSvrt = 0;
         }
         else if(this.CheckCode106()){
             stCode = 106;
+            stSvrt = 0;
         }
         else if(this.CheckCode110()){
             stCode = 110;
+            stSvrt = 0;
         }
         
         const newTransaction = {
             Amount: amount, /* number */
             Sender: senderAddress, /* sender's id */
             Receiver: receiverAddress, /* receiver's id */
-            Timestamp: '20240602151515',
+            Timestamp: this.GetTimestamp(),
             IsSt: stCode != 0, /* boolean */
             StCode: stCode, /* ST Rule Set Number */
-            StSvrt: 0, /* 0: 미해당, 1: 경고 후 통과, 9: 거래 불가 */
+            StSvrt: stSvrt, /* 0: 미해당, 1: 경고 후 통과, 9: 거래 불가 */
             docType: "transaction"
         };
 
@@ -3181,17 +3194,18 @@ class AssetTransfer extends Contract {
         await ctx.stub.putState(sender.Address, Buffer.from(stringify(sortKeysRecursive(sender))));
         await ctx.stub.putState(receiver.Address, Buffer.from(stringify(sortKeysRecursive(receiver))));
         await ctx.stub.putState(hash, Buffer.from(stringify(sortKeysRecursive(newTransaction))));
-        return true;
+
+        return JSON.stringify(newTransaction);
         //트랜잭션을 생성하고, 이후 updateUser를 하는 과정에서 st를 체크, 0이면 amount 업데이트, 이외는 보류
     }
 
     //[1일] 합산 [1천만 원] 이상의 가상자산 입금 후 혹은 동시에 당일 [1일] 합산 [1천만 원] 이상 가상자산 출금
-    CheckCode101(ledger, senderAddress, senderTxs) { 
+    CheckCode101(ledger, sender) { 
 
-        if(senderTxs.length == 0) return false;
+        if(sender.Txs.length == 0) return false;
 
-        let index = senderTxs.length - 1;
-        let tx = ledger.filter(l => l.TxId === senderTxs[index]);    
+        let index = sender.Txs.length - 1;
+        let tx = ledger.filter(l => l.TxId === sender.Txs[index]);    
 
         const lastTimestamp = tx.Timestamp;
         let sendedAmount = 0; 
@@ -3201,12 +3215,12 @@ class AssetTransfer extends Contract {
             if((tx.Timestamp - lastTimestamp) >= H24) 
                 break;
 
-            if(tx.Sender === senderAddress)
+            if(tx.Sender === sender.Address)
                 sendedAmount += tx.Amount;
             else 
                 receivedAmount += tx.Amount;
  
-            tx = ledger.filter(l => l.TxId === senderTxs[--index]); 
+            tx = ledger.filter(l => l.TxId === sender.Txs[--index]); 
         }
 
         return (sendedAmount >= 10000000 && receivedAmount >= 10000000);
@@ -3266,13 +3280,32 @@ class AssetTransfer extends Contract {
     }
 
     //직업이 [무직, 학생, 종교인]인 고객 [1일] 합산 [3천만 원] 이상 가상자산 출금
-    CheckCode113(){
+    CheckCode113(ledger, sender){
+        if(sender.Txs.length == 0 || 
+            (!['무직', '학생', '종교인'].includes(sender.Job))) 
+            return false;
 
-        return false;
+        let index = sender.Txs.length - 1;
+        let tx = ledger.filter(l => l.TxId === sender.Txs[index]);
+        const lastTimestamp = tx.Timestamp;
+        let totalAmount = 0;
+        while (index > 0) {
+            if ((tx.Timestamp - lastTimestamp) >= H24) // 24 * 60 * 60 * 1000
+                break;
+            if (tx.senderAddress === sender.Address)
+                totalAmount += tx.Amount;
+
+            tx = ledger.filter(l => l.TxId === sender.Txs[--index]);
+        }
+
+        return (totalAmount >= 30000000)
     }
 
     //[만 65세] 이상의 고령 고객이 [3천만 원] 이상의 가상자산을 [1일]에 [3회] 이상 입금
-    CheckCode114(){
+    CheckCode114(ledger, sender){
+        if(sender.Txs.length == 0 || sender.Age < 65) 
+            return false;
+
 
         return false;
     }
@@ -3297,7 +3330,7 @@ class AssetTransfer extends Contract {
 
     //[1일]? [5백만 원] 이상 입금 후 [30분] 이내에 출금
     CheckCode121(){
-
+        
     }
 
     //pad(n) { return (n < 10 ? '0' : '') + n; }
