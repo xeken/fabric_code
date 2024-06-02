@@ -10,10 +10,9 @@
 const stringify  = require('json-stringify-deterministic');
 const sortKeysRecursive  = require('sort-keys-recursive');
 const crypto = require('crypto');
-const base58 = require('bs58');
+//const base58 = require('bs58');
 const { Contract } = require('fabric-contract-api');
 const { send } = require('process');
-const { time } = require('console');
 
 const H24 = 70000000;
 
@@ -2942,14 +2941,13 @@ class AssetTransfer extends Contract {
     }
 
     async AddUser(ctx, name, age, gender, job){ 
-        const wlf = JSON.parse(this.GetWatchList(ctx));
-        for(const index in wlf) {
-            const info = wlf[index];
-            if((name === info.Name) && (age === info.Age) &&
-                (gender === info.Gender) && (job === info.Job)){
-                return false;
-            }
-        }​
+        // const wlf = JSON.parse(this.GetWatchList(ctx));
+        // for(const index in wlf) {
+        //     const info = wlf[index];
+        //     if((name === info.Name) && (age === info.Age) &&
+        //         (gender === info.Gender) && (job === info.Job))
+        //         return false;
+        // }​
         
         const timestamp = GetTimestamp();
         const user = {
@@ -3166,14 +3164,15 @@ class AssetTransfer extends Contract {
             Amount: amount, /* number */
             Sender: senderAddress, /* sender's id */
             Receiver: receiverAddress, /* receiver's id */
-            Timestamp: GetTimestamp(),
+            Timestamp: '20240602151515',
             IsSt: stCode != 0, /* boolean */
             StCode: stCode, /* ST Rule Set Number */
             StSvrt: 0, /* 0: 미해당, 1: 경고 후 통과, 9: 거래 불가 */
             docType: "transaction"
         };
 
-        const hash = base58.encode(crypto.createHash('sha256').update(JSON.stringify(newTransaction)).digest('hex'));
+//        const hash = base58.encode(crypto.createHash('sha256').update(JSON.stringify(newTransaction)).digest('hex'));
+        const hash = crypto.createHash('sha256').update(JSON.stringify(newTransaction)).digest('hex');
         newTransaction.TxId = hash;
         
         sender.Txs.push(hash);
@@ -3301,6 +3300,7 @@ class AssetTransfer extends Contract {
 
     }
 
+    //pad(n) { return (n < 10 ? '0' : '') + n; }
     GetTimestamp(){
         let pad = (n) => (n < 10 ? '0' : '') + n;
         const date = new Date();

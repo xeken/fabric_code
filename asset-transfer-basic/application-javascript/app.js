@@ -124,10 +124,10 @@ async function main() {
 			// This will be sent to just one peer and the results will be shown.
 			console.log('\n--> Evaluate Transaction: GetAllAssets, function returns all the current assets on the ledger');
 			let result = await contract.evaluateTransaction('GetAllTransactions');
-			console.log(`*** Result: ${prettyJSONString(result.toString())}`);
+			//console.log(`*** Result: ${prettyJSONString(result.toString())}`);
 
 			console.log('\n--> 트랜스퍼');
-			await contract.submitTransaction('Transfer', '0x9', '0x91', '1000').catch((err) => {
+			await contract.submitTransaction('Transfer', '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907', '0a8077182848001f47826e249f5d8e821ea263bd', '1000').catch((err) => {
 				console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
 				console.log(err.responses);
 			});
