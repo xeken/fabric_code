@@ -36,7 +36,7 @@ const peerHostAlias = envOrDefault('PEER_HOST_ALIAS', 'peer0.org1.example.com');
 const utf8Decoder = new TextDecoder();
 const assetId = `asset${Date.now()}`;
 
-async function main(): Promise<void> {
+async function main(): Promise<any> {
 
     await displayInputParameters();
 
@@ -73,26 +73,74 @@ async function main(): Promise<void> {
         await initLedger(contract);
 
         // Return all the current assets on the ledger.
-        await getAllAssets(contract);
+        // await getAllAssets(contract);
 
         // Create a new asset on the ledger.
-        await createAsset(contract);
+        // await createAsset(contract);
 
         // Update an existing asset asynchronously.
-        await transferAssetAsync(contract);
+        // await transferAssetAsync(contract);
 
         // Get the asset details by assetID.
-        await readAssetByID(contract);
+        // await readAssetByID(contract);
 
         // Update an asset which does not exist.
-        await updateNonExistentAsset(contract)
+        // await updateNonExistentAsset(contract)
+	
+	return contract;
     } finally {
-        gateway.close();
-        client.close();
+        // gateway.close();
+        // client.close();
     }
 }
 
-main().catch(error => {
+main().then((ctx: any) => {
+	const express = require('express');
+	const cors = require('cors');
+	const app = express();
+	const bodyParser = require('body-parser');
+	const port = 3000;
+
+	app.use(cors());
+	app.use(bodyParser.urlencoded());
+	app.use(bodyParser.json());
+
+	app.get('/selectUserList', async (req: any, res: any) => {
+		res.send(await getAllUsers(ctx));
+	})
+
+	app.get('/selectUser', async (req: any, res: any) => {
+	        res.send(await getUser(ctx, req.query.userId));
+	})
+
+	app.post('/updateUser', async (req: any, res: any) => {
+	        for(let obj of Object.entries(req.body)) {
+			await updateUser(ctx, req.body.address, obj[0], obj[1])	
+		}
+	        res.send(req.body);
+	})
+
+	app.get('/selectTrxList', async (req: any, res: any) => {
+		res.send(await getAllTransactions(ctx));
+	})
+	
+	app.get('/selectTrx', async (req: any, res: any) => {
+	        // res.send(await getAllTransactions(ctx));
+	})
+
+	app.get('/selectWatchList', async (req: any, res: any) => {
+		res.send(await getWatchList(ctx));
+	})
+
+	app.post('/insertTrx', async (req: any, res: any) => {
+		await transfer(ctx, req.body);
+		res.send(req.body);
+	})
+
+	app.listen(port, () => {
+		console.log(`Example app listening on port ${port}`)
+	})
+}).catch(error => {
     console.error('******** FAILED to run the application:', error);
     process.exitCode = 1;
 });
@@ -138,7 +186,7 @@ async function initLedger(contract: Contract): Promise<void> {
 /**
  * Evaluate a transaction to query ledger state.
  */
-async function getAllAssets(contract: Contract): Promise<void> {
+async function getAllAssets(contract: Contract): Promise<any> {
     console.log('\n--> Evaluate Transaction: GetAllAssets, function returns all the current assets on the ledger');
 
     const resultBytes = await contract.evaluateTransaction('GetAllAssets');
@@ -146,6 +194,48 @@ async function getAllAssets(contract: Contract): Promise<void> {
     const resultJson = utf8Decoder.decode(resultBytes);
     const result = JSON.parse(resultJson);
     console.log('*** Result:', result);
+
+    return result;
+}
+
+async function getAllUsers(contract: Contract): Promise<any> {
+       	const resultBytes = await contract.evaluateTransaction('GetAllUsers');
+        const resultJson = utf8Decoder.decode(resultBytes);
+        const result = JSON.parse(resultJson);
+        return result;
+}
+
+async function getUser(contract: Contract, userId: string): Promise<any> {
+	const resultBytes = await contract.evaluateTransaction('GetUser', userId);
+        const resultJson = utf8Decoder.decode(resultBytes);
+        const result = JSON.parse(resultJson);
+	return result;
+}
+
+async function updateUser(contract: Contract, address: string, property: string, value: any): Promise<void>{
+	await contract.submitTransaction('UpdateUser', address, property, value);
+}
+
+async function getAllTransactions(contract: Contract): Promise<any> {
+        const resultBytes = await contract.evaluateTransaction('GetAllTransactions');
+        const resultJson = utf8Decoder.decode(resultBytes);
+        const result = JSON.parse(resultJson);
+        return result;
+}
+
+async function getWatchList(contract: Contract): Promise<any> {
+        const resultBytes = await contract.evaluateTransaction('GetWatchList');
+        const resultJson = utf8Decoder.decode(resultBytes);
+        const result = JSON.parse(resultJson);
+        return result;
+}
+
+async function transfer(contract: Contract, payload: any): Promise<void> {
+	console.log('@@@@@@@@@@@@@222222')
+	console.log(payload.sender)
+	console.log(payload.receiver)
+	console.log(payload.amount)
+	await contract.submitTransaction('Transfer', payload.sender, payload.receiver, payload.amount);
 }
 
 /**
@@ -188,6 +278,8 @@ async function transferAssetAsync(contract: Contract): Promise<void> {
 
     console.log('*** Transaction committed successfully');
 }
+
+
 
 async function readAssetByID(contract: Contract): Promise<void> {
     console.log('\n--> Evaluate Transaction: ReadAsset, function returns asset attributes');
