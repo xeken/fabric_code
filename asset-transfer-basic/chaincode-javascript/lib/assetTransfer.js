@@ -3144,15 +3144,15 @@ class AssetTransfer extends Contract {
             stCode = 111;
             stSvrt = 1;
         }
-        else if(this.CheckCode112(receiver, receiverTxs, amount)){
+        else if(this.CheckCode112(receiver, receiverTxs)){
             stCode = 112;
             stSvrt = 1;
         }
-        else if(this.CheckCode113(sender, senderTxs, amount)){
+        else if(this.CheckCode113(sender, senderTxs)){
             stCode = 113;
             stSvrt = 1;
         }
-        else if(this.CheckCode114(receiver, receiverTxs, amount)){
+        else if(this.CheckCode114(receiver, receiverTxs)){
             stCode = 114;
             stSvrt = 1;
         }
@@ -3168,7 +3168,7 @@ class AssetTransfer extends Contract {
             stCode = 101;
             stSvrt = 0;
         }
-        else if(this.CheckCode102(sender, senderTxs, amount)){
+        else if(this.CheckCode102(sender, senderTxs)){
             stCode = 102;
             stSvrt = 0;
         }
@@ -3215,81 +3215,46 @@ class AssetTransfer extends Contract {
         const sendedTxs = senderTxs.filter(tx => ((tx.Sender === sender.Address) && (tx.Timestamp >= stamp)));
         const receivedTxs = senderTxs.filter(tx => ((tx.Receiver === sender.Address) && (tx.Timestamp >= stamp)));
         
-        let sendedAmount = sendedTxs.reduce((accumulator, currentValue) => {
-            return accumulator + currentValue.Amount;
-          }, 0);
-        let receivedAmount = receivedTxs.reduce((accumulator, currentValue) => {
-            return accumulator + currentValue.Amount;
-          }, 0);
+        let sendedAmount = sendedTxs.reduce((total, current) =>  total + current.Amount, 0);
+        let receivedAmount = receivedTxs.reduce((total, current) =>  total + current.Amount, 0);
 
         return (sendedAmount >= 10000000 && receivedAmount >= 10000000);
     }
 
     //[1일] 합산 [5회] 이상 [100만 원] 이상의 가상자산 출금
-    CheckCode102(sender, txs, amount) {
-        if(txs.length == 0) 
-            return false;
+    CheckCode102(sender, txs) {
 
-        let index = txs.length - 1;
-        let tx = txs[index];    
-        const now = this.GetTimestamp();
-    
-        let count = 0;
-        while(index > 0){
-            if((now - tx.Timestamp) >= H24) 
-                break;
+        const oneAgo = new Date();
+        oneAgo.setDate(oneAgo.getDate() - 1);
+        const stamp = this.GetTimestamp(oneAgo);
 
-            if((tx.senderAddress === sender.Address) && (tx.Amount >= 1000000))    
-                count ++;
-            
-            tx = txs[--index]; 
-        }
+        const sendedTxs = txs.filter(tx => ((tx.Sender === sender.Address) && (tx.Amount >= 1000000) && (tx.Timestamp >= stamp)));
 
-        return (count >= 5)
+        return (sendedTxs >= 5)
     }
 
     //[1일] 합산 [10회] 이상 가상자산 입금
     CheckCode105(receiver, txs) {
-        if(txs.length == 0) 
-            return false;
 
-        let index = txs.length - 1;
-        let tx = txs[index];    
-        const now = this.GetTimestamp();;
+        const oneAgo = new Date();
+        oneAgo.setDate(oneAgo.getDate() - 1);
+        const stamp = this.GetTimestamp(oneAgo);
 
-        let count = 0;
-        while(index > 0){
-            if((now - tx.Timestamp) >= H24) 
-                break;
-            if((tx.receiverAddress === receiver.Address) )    
-                count ++;
-            
-            tx = txs[--index]; 
-        }
+        const receivedTxs = txs.filter(tx => ((tx.Receiver === receiver.Address) && (tx.Timestamp >= stamp)));
 
-        return (count >= 10)
+        return (receivedTxs >= 10)
     }
 
     //[1일] 합산 [10회] 이상 가상자산 출금
     CheckCode106(sender, txs) {
-        if(txs.length == 0) 
-            return false;
 
-        let index = txs.length - 1;
-        let tx = txs[index];    
-        const now = this.GetTimestamp();;
+        const oneAgo = new Date();
+        oneAgo.setDate(oneAgo.getDate() - 1);
+        const stamp = this.GetTimestamp(oneAgo);
 
-        let count = 0;
-        while(index > 0){
-            if((now - tx.Timestamp) >= H24) 
-                break;
-            if((tx.senderAddress === sender.Address) )    
-                count ++;
-            
-            tx = txs[--index]; 
-        }
+        const sendedTxs = txs.filter(tx => ((tx.Sender === sender.Address) && (tx.Timestamp >= stamp)));
 
-        return (count >= 10)
+        return (sendedTxs >= 10)
     }
 
     //한 개의 지갑주소에 [7일]간 건당 [1백만 원] 이상이며 합산 [5개] 이상의 지갑 주소에서 가상자산 입금
@@ -3299,11 +3264,10 @@ class AssetTransfer extends Contract {
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
         const stamp = this.GetTimestamp(sevenDaysAgo);
 
-        const filteredTransactions = transactions.filter(tx => {
-            return (tx.Receiver === receiver.Address) && 
-                   (tx.Amount >= 1000000) && 
-                   (tx.Timestamp >= stamp);
-        });
+        const filteredTransactions = transactions.filter(tx => 
+            (tx.Receiver === receiver.Address) && 
+            (tx.Amount >= 1000000) && 
+            (tx.Timestamp >= stamp));
 
         return filteredTransactions.length >= 5;
     }
@@ -3315,101 +3279,70 @@ class AssetTransfer extends Contract {
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
         const stamp = this.GetTimestamp(sevenDaysAgo);
         
-        const filteredTransactions = transactions.filter(tx => {
-            return (tx.Sender === sender.Address) && 
-                   (tx.Amount >= 1000000) && 
-                   (tx.Timestamp >= stamp);
-        });
+        const filteredTransactions = transactions.filter(tx => 
+            (tx.Sender === sender.Address) && 
+            (tx.Amount >= 1000000) && 
+            (tx.Timestamp >= stamp));
 
         return filteredTransactions.length >= 5;
     }
 
     //직업이 [무직, 학생, 종교인]인 고객 [1일] 합산 [5천만 원] 이상 가상자산 입금
-    CheckCode112(receiver, txs, amount){
+    CheckCode112(receiver, txs){
         if(txs.length == 0 || (!['무직', '학생', '종교인'].includes(receiver.Job))) 
             return false;
 
-        let index = txs.length - 1;
-        let tx = txs[index];    
-        const now = this.GetTimestamp();;
+        const oneAgo = new Date();
+        oneAgo.setDate(oneAgo.getDate() - 1);
+        const stamp = this.GetTimestamp(oneAgo);
 
-        let totalAmount = 0;
-        while(index > 0){
-            if((now - tx.Timestamp) >= H24) 
-                break;
-            if(tx.receiverAddress === receiver.Address)    
-                totalAmount += tx.Amount;
-            
-            tx = txs[--index]; 
-        }
+        const receivedTxs = txs.filter(tx => ((tx.Receiver === receiver.Address) && (tx.Timestamp >= stamp)));
+        let receivedAmount = receivedTxs.reduce((total, current) =>  total + current.Amount, 0);
 
-        return (totalAmount >= 50000000)
+        return receivedAmount >= 50000000;
     }
 
     //직업이 [무직, 학생, 종교인]인 고객 [1일] 합산 [3천만 원] 이상 가상자산 출금
-    CheckCode113(sender, txs, amount){
+    CheckCode113(sender, txs){
         if(txs.length == 0 || (!['무직', '학생', '종교인'].includes(sender.Job))) 
             return false;
 
-        let index = sender.Txs.length - 1;
-        let tx = txs[index];
-        const now = this.GetTimestamp();;
+        const oneAgo = new Date();
+        oneAgo.setDate(oneAgo.getDate() - 1);
+        const stamp = this.GetTimestamp(oneAgo);
 
-        let totalAmount = 0;
-        while (index > 0) {
-            if ((now - tx.Timestamp) >= H24) // 24 * 60 * 60 * 1000
-                break;
-            if (tx.senderAddress === sender.Address)
-                totalAmount += tx.Amount;
+        const sendedTxs = txs.filter(tx => ((tx.Sender === sender.Address) && (tx.Timestamp >= stamp)));
+        let sendedAmount = sendedTxs.reduce((total, current) =>  total + current.Amount, 0);
 
-            tx = tx[--index];
-        }
-        
-        return (totalAmount >= 30000000)
+        return sendedAmount >= 30000000;
     }
 
     //[만 65세] 이상의 고령 고객이 [3천만 원] 이상의 가상자산을 [1일]에 [3회] 이상 입금
-    CheckCode114(receiver, receiverTxs, amount){
+    CheckCode114(receiver, receiverTxs){
         if(receiverTxs.length == 0 || receiver.Age < 65) 
             return false;
 
-        let index = receiverTxs.length - 1;
-        let tx = receiverTxs[index];    
-        const now = this.GetTimestamp();;
+        const oneAgo = new Date();
+        oneAgo.setDate(oneAgo.getDate() - 1);
+        const stamp = this.GetTimestamp(oneAgo);
 
-        let count = 0;
-        while(index > 0){
-            if((now - tx.Timestamp) >= H24) 
-                break;
-            if((tx.receiverAddress === receiver.Address) && (tx.Amount >= 30000000))    
-                count ++;
-            
-            tx = receiverTxs[--index]; 
-        }
+        const receivedTxs = txs.filter(tx => ((tx.Receiver === receiver.Address) && (tx.Amount >= 30000000) && (tx.Timestamp >= stamp)));
 
-        return (count >= 3)
+        return receivedTxs.length >= 3;
     }
 
     //[만 65세] 이상의 고령 고객이 [1천만 원] 이상 가상자산을 [1일]에 [2회] 이상 출금
-    CheckCode115(sender, txs, amount){
+    CheckCode115(sender, txs){
         if(txs.length == 0 || sender.Age < 65) 
             return false;
 
-        let index = sender.Txs.length - 1;
-        let tx = txs[index];
-        const now = this.GetTimestamp();;
+        const oneAgo = new Date();
+        oneAgo.setDate(oneAgo.getDate() - 1);
+        const stamp = this.GetTimestamp(oneAgo);
 
-        let count = 0;
-        while(index > 0){
-            if((now - tx.Timestamp) >= H24) 
-                break;
-            if((tx.senderAddress === sender.Address) && (tx.Amount >= 10000000))    
-                count ++;
-            
-            tx = txs[--index]; 
-        }
+        const sendedTxs = txs.filter(tx => ((tx.Sender === sender.Address) && (tx.Amount >= 10000000) && (tx.Timestamp >= stamp)));
 
-        return (count >= 2);
+        return receivedTxs.length >= 2;
     }
 
     //WLF 요주의인물 리스트 고객이 [1일]에 합산 [3백만 원] 이상의 가상자산을 출금하는 경우

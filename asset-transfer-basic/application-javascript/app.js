@@ -133,45 +133,41 @@ async function main() {
 				
 			console.log(`*** Result: ${prettyJSONString(result)}`);
 
-			// console.log('\n--> 트랜스퍼 102');
-			// result = await contract.submitTransaction('Transfer', 
-			// 	'1a677a3795f8a24b5dd99f83ea31f87595e25db1', 
-			// 	'18f1b4386f2e19e7dbf169ab2469c8fa8bc02976', '1000000')
-			// 	.catch((err) => {
-			// 	console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-			// 	console.log(err.responses);
-			// });
-			// console.log(`*** Result: ${prettyJSONString(result)}`);
+			console.log('\n--> 트랜스퍼 102');
+			result = await contract.submitTransaction('Transfer', 
+				'1a677a3795f8a24b5dd99f83ea31f87595e25db1', 
+				'18f1b4386f2e19e7dbf169ab2469c8fa8bc02976', '1000000');
+			console.log(`*** Result: ${prettyJSONString(result)}`);
 
-			// console.log('\n--> 트랜스퍼 3');
-			// result = await contract.submitTransaction('Transfer', 
-			// 	'0a8077182848001f47826e249f5d8e821ea263bd', 
-			// 	'1a677a3795f8a24b5dd99f83ea31f87595e25db1', '100000')
-			// 	.catch((err) => {
-			// 	console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-			// 	console.log(err.responses);
-			// });
-			// console.log(`*** Result: ${prettyJSONString(result)}`);
+			console.log('\n--> 트랜스퍼 3');
+			result = await contract.submitTransaction('Transfer', 
+				'0a8077182848001f47826e249f5d8e821ea263bd', 
+				'1a677a3795f8a24b5dd99f83ea31f87595e25db1', '100000')
+				.catch((err) => {
+				console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+				console.log(err.responses);
+			});
+			console.log(`*** Result: ${prettyJSONString(result)}`);
 
-			// console.log('\n--> 트랜스퍼 4');
-			// result = await contract.submitTransaction('Transfer', 
-			// 	'1a677a3795f8a24b5dd99f83ea31f87595e25db1', 
-			// 	'b284bea203a5c7e0fbae062650c067297579106a', '129000000')
-			// 	.catch((err) => {
-			// 	console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-			// 	console.log(err.responses);
-			// });
-			// console.log(`*** Result: ${prettyJSONString(result)}`);
+			console.log('\n--> 트랜스퍼 4');
+			result = await contract.submitTransaction('Transfer', 
+				'1a677a3795f8a24b5dd99f83ea31f87595e25db1', 
+				'b284bea203a5c7e0fbae062650c067297579106a', '129000000')
+				.catch((err) => {
+				console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+				console.log(err.responses);
+			});
+			console.log(`*** Result: ${prettyJSONString(result)}`);
 
-			// console.log('\n--> 트랜스퍼 5');
-			// result = await contract.submitTransaction('Transfer', 
-			// 	'78e15f1699dbb6c8a438e90c02044cfa9b9233f3', 
-			// 	'17732863dbd50ee07039048d05d1a144297492b2', '220000000')
-			// 	.catch((err) => {
-			// 	console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-			// 	console.log(err.responses);
-			// });
-			// console.log(`*** Result: ${prettyJSONString(result)}`);
+			console.log('\n--> 트랜스퍼 5');
+			result = await contract.submitTransaction('Transfer', 
+				'78e15f1699dbb6c8a438e90c02044cfa9b9233f3', 
+				'17732863dbd50ee07039048d05d1a144297492b2', '220000000')
+				.catch((err) => {
+				console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+				console.log(err.responses);
+			});
+			console.log(`*** Result: ${prettyJSONString(result)}`);
 
 			// console.log('\n--> Update User');
 			// let aa = await contract.evaluateTransaction('UpdateUser','0a8077182848001f47826e249f5d8e821ea263bd','Age','88').catch((err) => {
