@@ -122,17 +122,30 @@ async function main() {
 
 			// Let's try a query type operation (function).
 			// This will be sent to just one peer and the results will be shown.
-			console.log('\n--> Evaluate Transaction: GetAllAssets, function returns all the current assets on the ledger');
-			let result = await contract.evaluateTransaction('GetAllTransactions');
+			//console.log('\n--> Evaluate Transaction: GetAllAssets, function returns all the current assets on the ledger');
+			//let result = await contract.evaluateTransaction('GetAllTransactions');
 			//console.log(`*** Result: ${prettyJSONString(result.toString())}`);
-
+			
 			console.log('\n--> 트랜스퍼');
-			result = await contract.submitTransaction('Transfer', '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907', '0a8077182848001f47826e249f5d8e821ea263bd', '1000').catch((err) => {
+			let result = await contract.submitTransaction('Transfer', 
+				'0a8077182848001f47826e249f5d8e821ea263bd', 
+				'7a5d449fee32da8ddaa3ad6b32b785593c1e5656', '23123123')
+				.catch((err) => {
 				console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
 				console.log(err.responses);
 			});
 			console.log(`*** Result: ${prettyJSONString(result)}`);
 
+			// console.log('\n--> Update User');
+			// let aa = await contract.evaluateTransaction('UpdateUser','0a8077182848001f47826e249f5d8e821ea263bd','Age','88').catch((err) => {
+			// 		console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+			// 		console.log(err.responses);
+			// 	});
+			// console.log(`*** Result: ${aa}`);
+			
+			// console.log('\n--> Check User');
+			// let user = await contract.evaluateTransaction('GetUser','0a8077182848001f47826e249f5d8e821ea263bd');
+			// console.log(`*** Result: ${prettyJSONString(user)}`);
 		} finally {
 			gateway.disconnect();
 		}

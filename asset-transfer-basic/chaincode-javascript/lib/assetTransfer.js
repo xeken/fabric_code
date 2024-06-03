@@ -692,7 +692,7 @@ class AssetTransfer extends Contract {
                 Amount: 1000000,
                 Sender: '7a5d449fee32da8ddaa3ad6b32b785593c1e5656',
                 Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -703,7 +703,7 @@ class AssetTransfer extends Contract {
                 Amount: 500000,
                 Sender: 'b284bea203a5c7e0fbae062650c067297579106a',
                 Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -714,7 +714,7 @@ class AssetTransfer extends Contract {
                 Amount: 1000000,
                 Sender: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
                 Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -725,7 +725,7 @@ class AssetTransfer extends Contract {
                 Amount: 300000,
                 Sender: '8e5e46449a39ed3d1fb95ca06a3183ce8276adb9',
                 Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -736,7 +736,7 @@ class AssetTransfer extends Contract {
                 Amount: 200000,
                 Sender: '8c7bb8ca5c02878641bf43fb186c88ee8b116605',
                 Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -747,7 +747,7 @@ class AssetTransfer extends Contract {
                 Amount: 700000,
                 Sender: 'b284bea203a5c7e0fbae062650c067297579106a',
                 Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -758,7 +758,7 @@ class AssetTransfer extends Contract {
                 Amount: 300000,
                 Sender: 'b284bea203a5c7e0fbae062650c067297579106a',
                 Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -769,7 +769,7 @@ class AssetTransfer extends Contract {
                 Amount: 3000000,
                 Sender: 'b284bea203a5c7e0fbae062650c067297579106a',
                 Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -780,7 +780,7 @@ class AssetTransfer extends Contract {
                 Amount: 2310000,
                 Sender: 'b284bea203a5c7e0fbae062650c067297579106a',
                 Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -791,7 +791,7 @@ class AssetTransfer extends Contract {
                 Amount: 190000,
                 Sender: '8c7bb8ca5c02878641bf43fb186c88ee8b116605',
                 Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -802,7 +802,7 @@ class AssetTransfer extends Contract {
                 Amount: 500000,
                 Sender: '8c7bb8ca5c02878641bf43fb186c88ee8b116605',
                 Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -813,7 +813,7 @@ class AssetTransfer extends Contract {
                 Amount: 100000,
                 Sender: '78e15f1699dbb6c8a438e90c02044cfa9b9233f3',
                 Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -824,7 +824,7 @@ class AssetTransfer extends Contract {
                 Amount: 3000000,
                 Sender: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
                 Receiver: '8c7bb8ca5c02878641bf43fb186c88ee8b116605',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -835,7 +835,7 @@ class AssetTransfer extends Contract {
                 Amount: 1000000,
                 Sender: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
                 Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -846,7 +846,7 @@ class AssetTransfer extends Contract {
                 Amount: 1000000,
                 Sender: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
                 Receiver: '0a8077182848001f47826e249f5d8e821ea263bd',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -857,7 +857,7 @@ class AssetTransfer extends Contract {
                 Amount: 1000000,
                 Sender: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
                 Receiver: '0c697c7aa29826021cf94509f27f19882d3ea8be',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -868,7 +868,7 @@ class AssetTransfer extends Contract {
                 Amount: 1000000,
                 Sender: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
                 Receiver: '8cea08369dd29573b8ece1984284075296e8368a',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -879,7 +879,7 @@ class AssetTransfer extends Contract {
                 Amount: 100000,
                 Sender: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
                 Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -890,7 +890,7 @@ class AssetTransfer extends Contract {
                 Amount: 100000,
                 Sender: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
                 Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -901,7 +901,7 @@ class AssetTransfer extends Contract {
                 Amount: 100000,
                 Sender: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
                 Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -912,7 +912,7 @@ class AssetTransfer extends Contract {
                 Amount: 100000,
                 Sender: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
                 Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -923,7 +923,7 @@ class AssetTransfer extends Contract {
                 Amount: 100000,
                 Sender: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
                 Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -934,7 +934,7 @@ class AssetTransfer extends Contract {
                 Amount: 100000,
                 Sender: '0a8077182848001f47826e249f5d8e821ea263bd',
                 Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -945,7 +945,7 @@ class AssetTransfer extends Contract {
                 Amount: 100000,
                 Sender: '0a8077182848001f47826e249f5d8e821ea263bd',
                 Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -956,7 +956,7 @@ class AssetTransfer extends Contract {
                 Amount: 100000,
                 Sender: '0a8077182848001f47826e249f5d8e821ea263bd',
                 Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -967,7 +967,7 @@ class AssetTransfer extends Contract {
                 Amount: 100000,
                 Sender: '0a8077182848001f47826e249f5d8e821ea263bd',
                 Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Timestamp: '시연 당일',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -978,7 +978,7 @@ class AssetTransfer extends Contract {
                 Amount: 230000000,
                 Sender: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
                 Receiver: '8cea08369dd29573b8ece1984284075296e8368a',
-                Timestamp: '20240401025625',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -989,7 +989,7 @@ class AssetTransfer extends Contract {
                 Amount: 140000000,
                 Sender: '0a8077182848001f47826e249f5d8e821ea263bd',
                 Receiver: '8e5e46449a39ed3d1fb95ca06a3183ce8276adb9',
-                Timestamp: '20240401145407',
+                Timestamp: '20240603231400',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -2960,6 +2960,7 @@ class AssetTransfer extends Contract {
             Status: 0,
             CreateDt: timestamp,
             UpdateDt: timestamp,
+            docType: "user"
         };
 
         const hash = crypto.createHash('sha256').update(JSON.stringify(user)).digest('hex');
@@ -2970,7 +2971,7 @@ class AssetTransfer extends Contract {
     }
 
     async GetUser(ctx, address){
-        const user = await ctx.stub.getState(address); // get the asset from chaincode state
+        const user = await ctx.stub.getState(address); 
         if (!user || user.length === 0) {
             //throw new Error(`The user:${address} does not exist`);
             return false;
@@ -3056,7 +3057,7 @@ class AssetTransfer extends Contract {
     async UpdateUser(ctx, address, property, value){
         const user = JSON.parse(await this.GetUser(ctx, address));
 
-        switch(property){
+        switch(String(property)){
             case 'Balance' : { 
                 user.Balance = value;
                 break; 
@@ -3078,15 +3079,28 @@ class AssetTransfer extends Contract {
                 break; 
             }
             default: {
-                break;
+                user.Status = 500;
             } 
         }
+//        user.UpdateDt = this.GetTimestamp();
 
-        user.UpdateDt = this.GetTimestamp();
+        const newUser = {
+            Address: address,
+            Owner: user.Owner,
+            Balance: user.Balance,
+            Age: user.AddUser,
+            Gender: user.Gender,
+            Job: user.Job,
+            Txs: user.Txs,
+            Status: user.Status,
+            CreateDt: user.CreateDt,
+            UpdateDt: this.GetTimestamp(),
+            docType: user.docType
+        };
 
-        ctx.stub.putState(address, Buffer.from(stringify(sortKeysRecursive(user))));
- 
-        return true;
+        //await ctx.stub.putState(address, null);
+        return await ctx.stub.putState(address, Buffer.from(stringify(newUser)));
+        //return await ctx.stub.deleteState(address);
     }
 
     async ExecuteSTransaction(ctx, txId){
@@ -3103,9 +3117,9 @@ class AssetTransfer extends Contract {
         sender.Balance -= tx.Amount;
         receiver.Balance += tx.Amount;
 
-        ctx.stub.putState(txId, Buffer.from(stringify(sortKeysRecursive(tx))));
-        ctx.stub.putState(sender.Address, Buffer.from(stringify(sortKeysRecursive(sender))));
-        ctx.stub.putState(receiver.Address, Buffer.from(stringify(sortKeysRecursive(receiver))));
+        await ctx.stub.putState(txId, Buffer.from(stringify(sortKeysRecursive(tx))));
+        await ctx.stub.putState(sender.Address, Buffer.from(stringify(sortKeysRecursive(sender))));
+        await ctx.stub.putState(receiver.Address, Buffer.from(stringify(sortKeysRecursive(receiver))));
 
         return true;
     }
@@ -3115,20 +3129,24 @@ class AssetTransfer extends Contract {
         const receiver = JSON.parse(await this.GetUser(ctx, receiverAddress));
         const ledger = JSON.parse(await this.GetAllTransactions(ctx));
         
+        // const wlf = JSON.parse(this.GetWatchList(ctx));
+        // let isSenderWlf = wlf.filter(w => (sender.Owner === w.Name) && (sender.Age === w.Age) &&
+        //     (sender.Gender === w.Gender) && (sender.Job === info.Job)) 
+
+
         //Balance 체크는 웹에서 GetUser를 통해 먼저 검증할 것 -> 트랜잭션 생성문제. 여기서는 ST만 filtering하는 걸로 
 
-        // sender와 receiver의 각 트랜잭션 정보를 가져오기
-        const senderTxs = sender.Txs.map(txId => ledger.find(tx => tx.TxId === txId));
-        const receiverTxs = receiver.Txs.map(txId => ledger.find(tx => tx.TxId === txId));
-        
+        const senderTxs = ledger.filter(tx => sender.Txs.includes(tx.TxId));
+        const receiverTxs = ledger.filter(tx => receiver.Txs.includes(tx.TxId));
+
         let stCode = 0;
         let stSvrt = 0
         // 아래 CheckCode 함수를 병렬처리할 수 있는 방법???
-        if(this.CheckCode119(ledger, sender, amount)){
+        if(this.CheckCode119(sender, senderTxs, amount)){
             stCode = 119;
             stSvrt = 9;
         }
-        else if(this.CheckCode120(ledger, sender, amount)){
+        else if(this.CheckCode120(receiver, amount)){
             stCode = 120;
             stSvrt = 9;
         }
@@ -3136,39 +3154,39 @@ class AssetTransfer extends Contract {
             stCode = 111;
             stSvrt = 1;
         }
-        else if(this.CheckCode112(ledger, sender, amount)){
+        else if(this.CheckCode112(receiver, receiverTxs, amount)){
             stCode = 112;
             stSvrt = 1;
         }
-        else if(this.CheckCode113(ledger, sender, amount)){
+        else if(this.CheckCode113(sender, senderTxs, amount)){
             stCode = 113;
             stSvrt = 1;
         }
-        else if(this.CheckCode114(ledger, sender, amount)){
+        else if(this.CheckCode114(receiver, receiverTxs, amount)){
             stCode = 114;
             stSvrt = 1;
         }
-        else if(this.CheckCode115(ledger, sender, amount)){
+        else if(this.CheckCode115(sender, senderTxs, amount)){
             stCode = 115;
             stSvrt = 1;
         }
-        else if(this.CheckCode121(ledger, sender, amount)){
+        else if(this.CheckCode121(sender, senderTxs)){
             stCode = 121;
             stSvrt = 1;
         }
-        else if(this.CheckCode101(ledger, sender, amount)){
+        else if(this.CheckCode101(sender, senderTxs, amount)){
             stCode = 101;
             stSvrt = 0;
         }
-        else if(this.CheckCode102(ledger, sender, amount)){
+        else if(this.CheckCode102(sender, senderTxs, amount)){
             stCode = 102;
             stSvrt = 0;
         }
-        else if(this.CheckCode105(ledger, sender, amount)){
+        else if(this.CheckCode105(receiver, receiverTxs)){
             stCode = 105;
             stSvrt = 0;
         }
-        else if(this.CheckCode106(ledger, sender, amount)){
+        else if(this.CheckCode106(sender, senderTxs, amount)){
             stCode = 106;
             stSvrt = 0;
         }
@@ -3204,12 +3222,12 @@ class AssetTransfer extends Contract {
     }
 
     //[1일] 합산 [1천만 원] 이상의 가상자산 입금 후 혹은 동시에 당일 [1일] 합산 [1천만 원] 이상 가상자산 출금
-    CheckCode101(ledger, sender, amount) { 
+    CheckCode101(sender, senderTxs, amount) { 
 
-        if(sender.Txs.length == 0 ) return false;
+        if(senderTxs.length == 0 ) return false;
 
-        let index = sender.Txs.length - 1;
-        let tx = ledger.filter(l => l.TxId === sender.Txs[index]);    
+        let index = senderTxs.length - 1;
+        let tx = senderTxs[index];    
 
         const lastTimestamp = tx.Timestamp;
 
@@ -3220,27 +3238,29 @@ class AssetTransfer extends Contract {
         let receivedAmount = 0;
 
         while(index > 0){
-            if((tx.Timestamp - lastTimestamp) >= H24) 
+            if((lastTimestamp - tx.Timestamp) >= H24) 
                 break;
 
-            if(tx.Sender === sender.Address)
+            if(tx.senderAddress === sender.Address) // 출금
                 sendedAmount += tx.Amount;
-            else 
+            else(tx.receiverAddress === sender.Address)  // 입금
                 receivedAmount += tx.Amount;
  
-            tx = ledger.filter(l => l.TxId === sender.Txs[--index]); 
+            tx = senderTxs[--index]; 
         }
+
+        sendedAmount += amount
 
         return (sendedAmount >= 10000000 && receivedAmount >= 10000000);
     }
 
     //[1일] 합산 [5회] 이상 [100만 원] 이상의 가상자산 출금
-    CheckCode102(ledger, sender, amount) {
-        if(sender.Txs.length == 0) 
+    CheckCode102(sender, txs, amount) {
+        if(txs.length == 0) 
             return false;
 
-        let index = sender.Txs.length - 1;
-        let tx = ledger.filter(l => l.TxId === sender.Txs[index]);    
+        let index = txs.length - 1;
+        let tx = txs[index];    
         const lastTimestamp = tx.Timestamp;
 
         if(this.GetTimestamp() - lastTimestamp > H24)
@@ -3248,24 +3268,27 @@ class AssetTransfer extends Contract {
 
         let count = 0;
         while(index > 0){
-            if((tx.Timestamp - lastTimestamp) >= H24) 
+            if((lastTimestamp - tx.Timestamp) >= H24) 
                 break;
             if((tx.senderAddress === sender.Address) && (tx.Amount >= 1000000))    
                 count ++;
             
-            tx = ledger.filter(l => l.TxId === sender.Txs[--index]); 
+            tx = txs[--index]; 
         }
+
+        if(amount >= 1000000)
+            count ++;
 
         return (count >= 5)
     }
 
     //[1일] 합산 [10회] 이상 가상자산 입금
-    CheckCode105(ledger, sender, amount) {
-        if(sender.Txs.length == 0) 
+    CheckCode105(receiver, txs) {
+        if(txs.length == 0) 
             return false;
 
-        let index = sender.Txs.length - 1;
-        let tx = ledger.filter(l => l.TxId === sender.Txs[index]);    
+        let index = txs.length - 1;
+        let tx = txs[index];    
         const lastTimestamp = tx.Timestamp;
 
         if(this.GetTimestamp() - lastTimestamp > H24)
@@ -3273,24 +3296,26 @@ class AssetTransfer extends Contract {
 
         let count = 0;
         while(index > 0){
-            if((tx.Timestamp - lastTimestamp) >= H24) 
+            if((lastTimestamp - tx.Timestamp) >= H24) 
                 break;
-            if((tx.receiverAddress === sender.Address) )    
+            if((tx.receiverAddress === receiver.Address) )    
                 count ++;
             
-            tx = ledger.filter(l => l.TxId === sender.Txs[--index]); 
+            tx = txs[--index]; 
         }
+
+        count++;
 
         return (count >= 10)
     }
 
     //[1일] 합산 [10회] 이상 가상자산 출금
-    CheckCode106(ledger, sender, amount) {
-        if(sender.Txs.length == 0) 
+    CheckCode106(sender, txs) {
+        if(txs.length == 0) 
             return false;
 
-        let index = sender.Txs.length - 1;
-        let tx = ledger.filter(l => l.TxId === sender.Txs[index]);    
+        let index = txs.length - 1;
+        let tx = txs[index];    
         const lastTimestamp = tx.Timestamp;
 
         if(this.GetTimestamp() - lastTimestamp > H24)
@@ -3298,13 +3323,15 @@ class AssetTransfer extends Contract {
 
         let count = 0;
         while(index > 0){
-            if((tx.Timestamp - lastTimestamp) >= H24) 
+            if((lastTimestamp - tx.Timestamp) >= H24) 
                 break;
             if((tx.senderAddress === sender.Address) )    
                 count ++;
             
             tx = ledger.filter(l => l.TxId === sender.Txs[--index]); 
         }
+
+        count ++; 
 
         return (count >= 10)
     }
@@ -3322,13 +3349,12 @@ class AssetTransfer extends Contract {
     }
 
     //직업이 [무직, 학생, 종교인]인 고객 [1일] 합산 [5천만 원] 이상 가상자산 입금
-    CheckCode112(ledger, sender, amount){
-        if(sender.Txs.length == 0 || 
-            (!['무직', '학생', '종교인'].includes(sender.Job))) 
+    CheckCode112(receiver, txs, amount){
+        if(txs.length == 0 || (!['무직', '학생', '종교인'].includes(receiver.Job))) 
             return false;
 
-        let index = sender.Txs.length - 1;
-        let tx = ledger.filter(l => l.TxId === sender.Txs[index]);    
+        let index = txs.length - 1;
+        let tx = txs[index];    
         const lastTimestamp = tx.Timestamp;
 
         if(this.GetTimestamp() - lastTimestamp > H24)
@@ -3336,28 +3362,29 @@ class AssetTransfer extends Contract {
 
         let totalAmount = 0;
         while(index > 0){
-            if((tx.Timestamp - lastTimestamp) >= H24) // 24 * 60 * 60 * 1000
+            if((lastTimestamp - tx.Timestamp) >= H24) // 24 * 60 * 60 * 1000
                 break;
-            if(tx.receiverAddress === sender.Address)    
+            if(tx.receiverAddress === receiver.Address)    
                 totalAmount += tx.Amount;
             
-            tx = ledger.filter(l => l.TxId === sender.Txs[--index]); 
+            tx = txs[--index]; 
         }
+
+        totalAmount += amount;
 
         return (totalAmount >= 50000000)
     }
 
     //직업이 [무직, 학생, 종교인]인 고객 [1일] 합산 [3천만 원] 이상 가상자산 출금
-    CheckCode113(ledger, sender, amount){
-        if(sender.Txs.length == 0 || 
-            (!['무직', '학생', '종교인'].includes(sender.Job))) 
+    CheckCode113(sender, txs, amount){
+        if(txs.length == 0 || (!['무직', '학생', '종교인'].includes(sender.Job))) 
             return false;
 
-        if(amount >= 30000000) 
-            return true;
+        // if(amount >= 30000000) 
+        //     return true;
 
         let index = sender.Txs.length - 1;
-        let tx = ledger.filter(l => l.TxId === sender.Txs[index]);
+        let tx = txs[index];
         const lastTimestamp = tx.Timestamp;
 
         if(this.GetTimestamp() - lastTimestamp > H24)
@@ -3365,24 +3392,26 @@ class AssetTransfer extends Contract {
 
         let totalAmount = 0;
         while (index > 0) {
-            if ((tx.Timestamp - lastTimestamp) >= H24) // 24 * 60 * 60 * 1000
+            if ((lastTimestamp - tx.Timestamp) >= H24) // 24 * 60 * 60 * 1000
                 break;
             if (tx.senderAddress === sender.Address)
                 totalAmount += tx.Amount;
 
-            tx = ledger.filter(l => l.TxId === sender.Txs[--index]);
+            tx = tx[--index];
         }
+        
+        totalAmount += amount;
 
         return (totalAmount >= 30000000)
     }
 
     //[만 65세] 이상의 고령 고객이 [3천만 원] 이상의 가상자산을 [1일]에 [3회] 이상 입금
-    CheckCode114(ledger, sender, amount){
-        if(sender.Txs.length == 0 || sender.Age < 65) 
+    CheckCode114(receiver, receiverTxs, amount){
+        if(receiverTxs.length == 0 || receiver.Age < 65) 
             return false;
 
-        let index = sender.Txs.length - 1;
-        let tx = ledger.filter(l => l.TxId === sender.Txs[index]);    
+        let index = receiverTxs.length - 1;
+        let tx = receiverTxs[index];    
         const lastTimestamp = tx.Timestamp;
 
         if(this.GetTimestamp() - lastTimestamp > H24)
@@ -3390,38 +3419,89 @@ class AssetTransfer extends Contract {
 
         let count = 0;
         while(index > 0){
-            if((tx.Timestamp - lastTimestamp) >= H24) 
+            if((lastTimestamp - tx.Timestamp) >= H24) 
                 break;
-            if((tx.receiverAddress === sender.Address) && (tx.Amount >= 30000000))    
+            if((tx.receiverAddress === receiver.Address) && (tx.Amount >= 30000000))    
                 count ++;
             
-            tx = ledger.filter(l => l.TxId === sender.Txs[--index]); 
+            tx = receiverTxs[--index]; 
         }
+
+        if(amount >= 30000000)
+            count ++;
 
         return (count >= 3)
     }
 
     //[만 65세] 이상의 고령 고객이 [1천만 원] 이상 가상자산을 [1일]에 [2회] 이상 출금
-    CheckCode115(ledger, sender, amount){
+    CheckCode115(sender, txs, amount){
+        if(txs.length == 0 || sender.Age < 65) 
+            return false;
 
-        return false;
+        let index = sender.Txs.length - 1;
+        let tx = txs[index];
+        const lastTimestamp = tx.Timestamp;
+
+        if(this.GetTimestamp() - lastTimestamp > H24)
+            return false;
+
+        let count = 0;
+        while(index > 0){
+            if((lastTimestamp - tx.Timestamp) >= H24) 
+                break;
+            if((tx.senderAddress === sender.Address) && (tx.Amount >= 10000000))    
+                count ++;
+            
+            tx = txs[--index]; 
+        }
+
+        if(amount >= 10000000)
+            count ++;
+
+        return (count >= 2);
     }
 
     //WLF 요주의인물 리스트 고객이 [1일]에 합산 [3백만 원] 이상의 가상자산을 출금하는 경우
-    CheckCode119(ledger, sender, amount){
+    CheckCode119(sender, txs, amount){
+        if(txs.length == 0) 
+            return false;
+
+
+
 
         return false;
     }
 
-    //[휴면계정] 고객 [휴면상태]에게 [1백만 원] 이상 가상자산 입금
-    CheckCode120(ledger, sender, amount){
+    //[휴면상태]에게 [1백만 원] 이상 가상자산 입금
+    CheckCode120(receiver, amount){
+        if(receiver.Status != 1)
+            return false;
 
-        return false;
+        return (amount >= 1000000);
     }
 
-    //[1일]? [5백만 원] 이상 입금 후 [30분] 이내에 출금
-    CheckCode121(ledger, sender, amount){
-        
+    //[5백만 원] 이상 입금 후 [30분] 이내에 출금
+    CheckCode121(sender, txs){
+        if(txs.length == 0) 
+            return false;
+
+        let index = txs.length - 1;
+        let tx = txs[index];
+        const lastTimestamp = tx.Timestamp;
+
+        if(this.GetTimestamp() - lastTimestamp > 3000) //30분
+            return false;
+
+        while(index > 0){
+            if((lastTimestamp - tx.Timestamp) >= 3000) 
+                break;
+            if((tx.receiverAddress === sender.Address) && (tx.Amount >= 5000000))    
+                return true;
+            
+            tx = txs[--index]; 
+        }
+
+        return false;
     }
 
     //pad(n) { return (n < 10 ? '0' : '') + n; }
