@@ -3118,6 +3118,17 @@ class AssetTransfer extends Contract {
         const senderTxs = ledger.filter(tx => sender.Txs.includes(tx.TxId));
         const receiverTxs = ledger.filter(tx => receiver.Txs.includes(tx.TxId));
 
+        const newTransaction = {
+            Amount: amount, /* number */
+            Sender: senderAddress, /* sender's id */
+            Receiver: receiverAddress, /* receiver's id */
+            Timestamp: this.GetTimestamp(),
+            docType: "transaction"
+        };
+        
+        senderTxs.push(newTransaction);
+        receiverTxs.push(newTransaction);
+
         let stCode = 0;
         let stSvrt = 0
         
@@ -3129,7 +3140,7 @@ class AssetTransfer extends Contract {
             stCode = 120;
             stSvrt = 9;
         }
-        else if(this.CheckCode111(ledger, sender, amount)){
+        else if(this.CheckCode111(sender, senderTxs)){
             stCode = 111;
             stSvrt = 1;
         }
@@ -3153,7 +3164,7 @@ class AssetTransfer extends Contract {
             stCode = 121;
             stSvrt = 1;
         }
-        else if(this.CheckCode101(sender, senderTxs, amount)){
+        else if(this.CheckCode101(sender, senderTxs)){
             stCode = 101;
             stSvrt = 0;
         }
@@ -3169,67 +3180,47 @@ class AssetTransfer extends Contract {
             stCode = 106;
             stSvrt = 0;
         }
-        else if(this.CheckCode110(ledger, sender, amount)){
+        else if(this.CheckCode110(receiver, receiverTxs)){
             stCode = 110;
             stSvrt = 0;
         }
         
-        const newTransaction = {
-            Amount: amount, /* number */
-            Sender: senderAddress, /* sender's id */
-            Receiver: receiverAddress, /* receiver's id */
-            Timestamp: this.GetTimestamp(),
-            IsSt: stCode != 0, /* boolean */
-            StCode: stCode, /* ST Rule Set Number */
-            StSvrt: stSvrt, /* 0: 미해당, 1: 경고 후 통과, 9: 거래 불가 */
-            docType: "transaction"
-        };
+        newTransaction.Timestamp = this.GetTimestamp();
+        newTransaction.IsSt = stCode != 0; /* boolean */
+        newTransaction.StCode = stCode; /* ST Rule Set Number */
+        newTransaction.StSvrt = stSvrt; /* 0: 미해당, 1: 경고 후 통과, 9: 거래 불가 */
+        newTransaction.docType = "transaction";
 
-//        const hash = base58.encode(crypto.createHash('sha256').update(JSON.stringify(newTransaction)).digest('hex'));
         const hash = crypto.createHash('sha256').update(JSON.stringify(newTransaction)).digest('hex');
         newTransaction.TxId = hash;
         
         sender.Txs.push(hash);
         receiver.Txs.push(hash);
 
-        await ctx.stub.putState(sender.Address, Buffer.from(stringify(sortKeysRecursive(sender))));
-        await ctx.stub.putState(receiver.Address, Buffer.from(stringify(sortKeysRecursive(receiver))));
-        await ctx.stub.putState(hash, Buffer.from(stringify(sortKeysRecursive(newTransaction))));
+        // await ctx.stub.putState(sender.Address, Buffer.from(stringify(sortKeysRecursive(sender))));
+        // await ctx.stub.putState(receiver.Address, Buffer.from(stringify(sortKeysRecursive(receiver))));
+        // await ctx.stub.putState(hash, Buffer.from(stringify(sortKeysRecursive(newTransaction))));
 
         return JSON.stringify(newTransaction);
         //트랜잭션을 생성하고, 이후 updateUser를 하는 과정에서 st를 체크, 0이면 amount 업데이트, 이외는 보류
     }
 
     //[1일] 합산 [1천만 원] 이상의 가상자산 입금 후 혹은 동시에 당일 [1일] 합산 [1천만 원] 이상 가상자산 출금
-    CheckCode101(sender, senderTxs, amount) { 
+    CheckCode101(sender, senderTxs) { 
 
-        if(senderTxs.length == 0 ) 
-            return false;
+        const oneAgo = new Date();
+        oneAgo.setDate(oneAgo.getDate() - 1);
+        const stamp = this.GetTimestamp(oneAgo);
 
-        let index = senderTxs.length - 1;
-        let tx = senderTxs[index];    
-
-        const lastTimestamp = tx.Timestamp;
-
-        if(this.GetTimestamp() - lastTimestamp > H24)
-            return false;
-
-        let sendedAmount = 0; 
-        let receivedAmount = 0;
-
-        while(index > 0){
-            if((lastTimestamp - tx.Timestamp) >= H24) 
-                break;
-
-            if(tx.senderAddress === sender.Address) // 출금
-                sendedAmount += tx.Amount;
-            else if(tx.receiverAddress === sender.Address)  // 입금
-                receivedAmount += tx.Amount;
- 
-            tx = senderTxs[--index]; 
-        }
-
-        sendedAmount += amount
+        const sendedTxs = senderTxs.filter(tx => ((tx.Sender === sender.Address) && (tx.Timestamp >= stamp)));
+        const receivedTxs = senderTxs.filter(tx => ((tx.Receiver === sender.Address) && (tx.Timestamp >= stamp)));
+        
+        let sendedAmount = sendedTxs.reduce((accumulator, currentValue) => {
+            return accumulator + currentValue.Amount;
+          }, 0);
+        let receivedAmount = receivedTxs.reduce((accumulator, currentValue) => {
+            return accumulator + currentValue.Amount;
+          }, 0);
 
         return (sendedAmount >= 10000000 && receivedAmount >= 10000000);
     }
@@ -3241,14 +3232,11 @@ class AssetTransfer extends Contract {
 
         let index = txs.length - 1;
         let tx = txs[index];    
-        const lastTimestamp = tx.Timestamp;
-
-        if(this.GetTimestamp() - lastTimestamp > H24)
-            return false;
-
+        const now = this.GetTimestamp();
+    
         let count = 0;
         while(index > 0){
-            if((lastTimestamp - tx.Timestamp) >= H24) 
+            if((now - tx.Timestamp) >= H24) 
                 break;
 
             if((tx.senderAddress === sender.Address) && (tx.Amount >= 1000000))    
@@ -3256,9 +3244,6 @@ class AssetTransfer extends Contract {
             
             tx = txs[--index]; 
         }
-
-        if(amount >= 1000000)
-            count ++;
 
         return (count >= 5)
     }
@@ -3270,22 +3255,17 @@ class AssetTransfer extends Contract {
 
         let index = txs.length - 1;
         let tx = txs[index];    
-        const lastTimestamp = tx.Timestamp;
-
-        if(this.GetTimestamp() - lastTimestamp > H24)
-            return false;
+        const now = this.GetTimestamp();;
 
         let count = 0;
         while(index > 0){
-            if((lastTimestamp - tx.Timestamp) >= H24) 
+            if((now - tx.Timestamp) >= H24) 
                 break;
             if((tx.receiverAddress === receiver.Address) )    
                 count ++;
             
             tx = txs[--index]; 
         }
-
-        count++;
 
         return (count >= 10)
     }
@@ -3297,14 +3277,11 @@ class AssetTransfer extends Contract {
 
         let index = txs.length - 1;
         let tx = txs[index];    
-        const lastTimestamp = tx.Timestamp;
-
-        if(this.GetTimestamp() - lastTimestamp > H24)
-            return false;
+        const now = this.GetTimestamp();;
 
         let count = 0;
         while(index > 0){
-            if((lastTimestamp - tx.Timestamp) >= H24) 
+            if((now - tx.Timestamp) >= H24) 
                 break;
             if((tx.senderAddress === sender.Address) )    
                 count ++;
@@ -3312,21 +3289,39 @@ class AssetTransfer extends Contract {
             tx = txs[--index]; 
         }
 
-        count ++; 
-
         return (count >= 10)
     }
 
     //한 개의 지갑주소에 [7일]간 건당 [1백만 원] 이상이며 합산 [5개] 이상의 지갑 주소에서 가상자산 입금
-    CheckCode110(ledger, sender, amount){
+    CheckCode110(receiver, transactions){
 
-        return false;
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        const stamp = this.GetTimestamp(sevenDaysAgo);
+
+        const filteredTransactions = transactions.filter(tx => {
+            return (tx.Receiver === receiver.Address) && 
+                   (tx.Amount >= 1000000) && 
+                   (tx.Timestamp >= stamp);
+        });
+
+        return filteredTransactions.length >= 5;
     }
 
     //한 개의 지갑주소에서 [7일]간 건당 [1백만 원] 이상이며 합산 [5개] 이상의 지갑 주소로 가상자산 출금
-    CheckCode111(ledger, sender, amount){
+    CheckCode111(sender, transactions) {
+        
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        const stamp = this.GetTimestamp(sevenDaysAgo);
+        
+        const filteredTransactions = transactions.filter(tx => {
+            return (tx.Sender === sender.Address) && 
+                   (tx.Amount >= 1000000) && 
+                   (tx.Timestamp >= stamp);
+        });
 
-        return false;
+        return filteredTransactions.length >= 5;
     }
 
     //직업이 [무직, 학생, 종교인]인 고객 [1일] 합산 [5천만 원] 이상 가상자산 입금
@@ -3336,22 +3331,17 @@ class AssetTransfer extends Contract {
 
         let index = txs.length - 1;
         let tx = txs[index];    
-        const lastTimestamp = tx.Timestamp;
-
-        if(this.GetTimestamp() - lastTimestamp > H24)
-            return false;
+        const now = this.GetTimestamp();;
 
         let totalAmount = 0;
         while(index > 0){
-            if((lastTimestamp - tx.Timestamp) >= H24) // 24 * 60 * 60 * 1000
+            if((now - tx.Timestamp) >= H24) 
                 break;
             if(tx.receiverAddress === receiver.Address)    
                 totalAmount += tx.Amount;
             
             tx = txs[--index]; 
         }
-
-        totalAmount += amount;
 
         return (totalAmount >= 50000000)
     }
@@ -3363,14 +3353,11 @@ class AssetTransfer extends Contract {
 
         let index = sender.Txs.length - 1;
         let tx = txs[index];
-        const lastTimestamp = tx.Timestamp;
-
-        if(this.GetTimestamp() - lastTimestamp > H24)
-            return false;
+        const now = this.GetTimestamp();;
 
         let totalAmount = 0;
         while (index > 0) {
-            if ((lastTimestamp - tx.Timestamp) >= H24) // 24 * 60 * 60 * 1000
+            if ((now - tx.Timestamp) >= H24) // 24 * 60 * 60 * 1000
                 break;
             if (tx.senderAddress === sender.Address)
                 totalAmount += tx.Amount;
@@ -3378,8 +3365,6 @@ class AssetTransfer extends Contract {
             tx = tx[--index];
         }
         
-        totalAmount += amount;
-
         return (totalAmount >= 30000000)
     }
 
@@ -3390,23 +3375,17 @@ class AssetTransfer extends Contract {
 
         let index = receiverTxs.length - 1;
         let tx = receiverTxs[index];    
-        const lastTimestamp = tx.Timestamp;
-
-        if(this.GetTimestamp() - lastTimestamp > H24)
-            return false;
+        const now = this.GetTimestamp();;
 
         let count = 0;
         while(index > 0){
-            if((lastTimestamp - tx.Timestamp) >= H24) 
+            if((now - tx.Timestamp) >= H24) 
                 break;
             if((tx.receiverAddress === receiver.Address) && (tx.Amount >= 30000000))    
                 count ++;
             
             tx = receiverTxs[--index]; 
         }
-
-        if(amount >= 30000000)
-            count ++;
 
         return (count >= 3)
     }
@@ -3418,23 +3397,17 @@ class AssetTransfer extends Contract {
 
         let index = sender.Txs.length - 1;
         let tx = txs[index];
-        const lastTimestamp = tx.Timestamp;
-
-        if(this.GetTimestamp() - lastTimestamp > H24)
-            return false;
+        const now = this.GetTimestamp();;
 
         let count = 0;
         while(index > 0){
-            if((lastTimestamp - tx.Timestamp) >= H24) 
+            if((now - tx.Timestamp) >= H24) 
                 break;
             if((tx.senderAddress === sender.Address) && (tx.Amount >= 10000000))    
                 count ++;
             
             tx = txs[--index]; 
         }
-
-        if(amount >= 10000000)
-            count ++;
 
         return (count >= 2);
     }
@@ -3463,13 +3436,10 @@ class AssetTransfer extends Contract {
 
         let index = txs.length - 1;
         let tx = txs[index];
-        const lastTimestamp = tx.Timestamp;
-
-        if(this.GetTimestamp() - lastTimestamp > H24) 
-            return false;
+        const now = this.GetTimestamp();;
 
         while(index > 0){
-            if((lastTimestamp - tx.Timestamp) >= 3000) 
+            if((now - tx.Timestamp) >= 3000) 
                 break;
             if((tx.receiverAddress === sender.Address) && (tx.Amount >= 5000000))    
                 return true;
@@ -3480,9 +3450,8 @@ class AssetTransfer extends Contract {
         return false;
     }
 
-    GetTimestamp(){
+    GetTimestamp(date = new Date()){
         let pad = (n) => (n < 10 ? '0' : '') + n;
-        const date = new Date();
         return date.getFullYear() +
             pad(date.getMonth() + 1) + 
             pad(date.getDate()) +
