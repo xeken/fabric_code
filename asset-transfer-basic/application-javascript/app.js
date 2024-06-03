@@ -126,10 +126,50 @@ async function main() {
 			//let result = await contract.evaluateTransaction('GetAllTransactions');
 			//console.log(`*** Result: ${prettyJSONString(result.toString())}`);
 			
-			console.log('\n--> 트랜스퍼');
+			console.log('\n--> 트랜스퍼 101');
 			let result = await contract.submitTransaction('Transfer', 
+				'7cafb40b30e8f7f0c8f57393e2ea63ff58a95907', 
+				'f5c705db130ec0cbda536bfacc8e38425b427862', '7500000')
+				.catch((err) => {
+				console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+				console.log(err.responses);
+			});
+			console.log(`*** Result: ${prettyJSONString(result)}`);
+
+			console.log('\n--> 트랜스퍼 102');
+			result = await contract.submitTransaction('Transfer', 
+				'1a677a3795f8a24b5dd99f83ea31f87595e25db1', 
+				'18f1b4386f2e19e7dbf169ab2469c8fa8bc02976', '1000000')
+				.catch((err) => {
+				console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+				console.log(err.responses);
+			});
+			console.log(`*** Result: ${prettyJSONString(result)}`);
+
+			console.log('\n--> 트랜스퍼 3');
+			result = await contract.submitTransaction('Transfer', 
 				'0a8077182848001f47826e249f5d8e821ea263bd', 
-				'7a5d449fee32da8ddaa3ad6b32b785593c1e5656', '23123123')
+				'1a677a3795f8a24b5dd99f83ea31f87595e25db1', '100000')
+				.catch((err) => {
+				console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+				console.log(err.responses);
+			});
+			console.log(`*** Result: ${prettyJSONString(result)}`);
+
+			console.log('\n--> 트랜스퍼 4');
+			result = await contract.submitTransaction('Transfer', 
+				'1a677a3795f8a24b5dd99f83ea31f87595e25db1', 
+				'b284bea203a5c7e0fbae062650c067297579106a', '129000000')
+				.catch((err) => {
+				console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+				console.log(err.responses);
+			});
+			console.log(`*** Result: ${prettyJSONString(result)}`);
+
+			console.log('\n--> 트랜스퍼 5');
+			result = await contract.submitTransaction('Transfer', 
+				'78e15f1699dbb6c8a438e90c02044cfa9b9233f3', 
+				'17732863dbd50ee07039048d05d1a144297492b2', '220000000')
 				.catch((err) => {
 				console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
 				console.log(err.responses);

@@ -13,6 +13,7 @@ const crypto = require('crypto');
 //const base58 = require('bs58');
 const { Contract } = require('fabric-contract-api');
 const { send } = require('process');
+const { stat } = require('fs');
 
 const H24 = 70000000;
 
@@ -28,40 +29,40 @@ class AssetTransfer extends Contract {
                 Gender: 'M',
                 Job: '직장인',
                 Txs: [
-                    'f063e516bc8ef82e',
-                    '2beebe9cd77df812',
-                    '22b990aee89f8ab2',
-                    '2e2edb4d1218551e',
-                    'ad5ce1594c21e109',
-                    'c6e84add6eb0eacf',
-                    'ffecb9640b264dd0',
-                    '88bee2a2f5801904',
-                    '86602b88fc60a0bd',
-                    '9e4fbc3ea4c92ad9',
-                    '41b3b0fddb376660',
-                    'd070341a25dfae8b',
-                    '96310a2d095e1a35',
-                    '0a39d0b6302e0aa5',
-                    '89a0edb7e9cd0acf',
-                    'cd3bdfbe3dc3298a',
-                    '5a946fc44400a44d',
-                    '48eaba1c7fb722de',
-                    '183424efde79dc21',
-                    '6e05d9ba4dedc168',
-                    '0d2f96164bb5667e',
-                    '3034467879976c91',
-                    '927104305d76f019',
-                    '58ad5b5372c950c6',
-                    '12cf81b032bef8ed',
-                    'ff65012b1db8270c',
-                    '809085e7ee02e7aa',
-                    '7f62764b528f4106',
-                    '3a4bbf26c38b134f',
-                    '183e7fd842fb581c',
-                    '3dfdd0364cc3be69',
-                    'd1e23c83ff2a8c25',
-                    'b352835df4c96d54',
                     '6adc4a30ae16e985',
+                    'b352835df4c96d54',
+                    'd1e23c83ff2a8c25',
+                    '3dfdd0364cc3be69',
+                    '183e7fd842fb581c',
+                    '3a4bbf26c38b134f',
+                    '7f62764b528f4106',
+                    '809085e7ee02e7aa',
+                    'ff65012b1db8270c',
+                    '12cf81b032bef8ed',
+                    '58ad5b5372c950c6',
+                    '927104305d76f019',
+                    '3034467879976c91',
+                    '0d2f96164bb5667e',
+                    '6e05d9ba4dedc168',
+                    '183424efde79dc21',
+                    '48eaba1c7fb722de',
+                    '5a946fc44400a44d',
+                    'cd3bdfbe3dc3298a',
+                    '89a0edb7e9cd0acf',
+                    '0a39d0b6302e0aa5',
+                    '96310a2d095e1a35',
+                    'd070341a25dfae8d',
+                    '41b3b0fddb376660',
+                    '9e4fbc3ea4c92ad9',
+                    '86602b88fc60a0bd',
+                    '88bee2a2f5801904',
+                    'ffecb9640b264dd0',
+                    'c6e84add6eb0eacf',
+                    'ad5ce1594c21e109',
+                    '2e2edb4d1218551e',
+                    '22b990aee89f8ab2',
+                    '2beebe9cd77df812',
+                    'f063e516bc8ef82e'
                 ],
                 Status: 1,
                 CreateDt: '20240524072135',
@@ -75,23 +76,23 @@ class AssetTransfer extends Contract {
                 Gender: 'F',
                 Job: '직장인',
                 Txs: [
-                    '32f07acc7b759d10',
-                    'e3b0af950199d4f0',
-                    '22362aa16faf6e19',
-                    'a9515bc73a5ef743',
-                    '7047317cdfe241f2',
-                    'f452a55722fc405b',
-                    'a18449c6c28c3a09',
-                    '3483aa3c6a81bc79',
-                    'f612e4c8f76ce175',
-                    '5e974240cb772719',
-                    '809085e7ee02e7aa',
-                    'fd51bb23646ae265',
-                    '43d7dd7f43f1225e',
-                    'acafedb1c4f5b7fe',
-                    '483e55fc3956f50b',
-                    '0a8701be3c9a6f76',
                     '0a21b9f290b70971',
+                    '0a8701be3c9a6f76',
+                    '483e55fc3956f50b',
+                    'acafedb1c4f5b7fe',
+                    '43d7dd7f43f1225e',
+                    'fd51bb23646ae265',
+                    '809085e7ee02e7aa',
+                    '5e974240cb772719',
+                    'f612e4c8f76ce175',
+                    '3483aa3c6a81bc79',
+                    'a18449c6c28c3a09',
+                    'f452a55722fc405b',
+                    '7047317cdfe241f2',
+                    'a9515bc73a5ef743',
+                    '22362aa16faf6e19',
+                    'e3b0af950199d4f0',
+                    '32f07acc7b759d10'
                 ],
                 Status: 0,
                 CreateDt: '20240416053303',
@@ -105,21 +106,21 @@ class AssetTransfer extends Contract {
                 Gender: 'M',
                 Job: '직장인',
                 Txs: [
-                    '4b1958e25c89ca4c',
-                    '84f5b16432389130',
-                    '16516ee8f4c8fd3a',
-                    '3eac63e3740dc76f',
-                    '13f1ea0e47a7d9fd',
-                    'ee37c71aed8da23e',
-                    '58ad5b5372c950c6',
-                    'b68e6d3d87599b7b',
-                    '7f62764b528f4106',
-                    'ceaa1471d579c547',
-                    '183e7fd842fb581c',
-                    'e79122dacaf90ea5',
-                    '3140e8487e468b67',
-                    '8bb9703d58219adc',
                     '9ed5668ba33ac6f4',
+                    '8bb9703d58219adc',
+                    '3140e8487e468b67',
+                    'e79122dacaf90ea5',
+                    '183e7fd842fb581c',
+                    'ceaa1471d579c547',
+                    '7f62764b528f4106',
+                    'b68e6d3d87599b7b',
+                    '58ad5b5372c950c6',
+                    'ee37c71aed8da23e',
+                    '13f1ea0e47a7d9fd',
+                    '3eac63e3740dc76f',
+                    '16516ee8f4c8fd3a',
+                    '84f5b16432389130',
+                    '4b1958e25c89ca4c'
                 ],
                 Status: 0,
                 CreateDt: '20240511061350',
@@ -133,24 +134,24 @@ class AssetTransfer extends Contract {
                 Gender: 'F',
                 Job: '직장인',
                 Txs: [
-                    '27491486cf097e1f',
-                    '6e05d9ba4dedc168',
-                    '3fa7bcdef47ef386',
-                    '13f1ea0e47a7d9fd',
-                    'c38ba1a7dfbbb4d7',
-                    '60f8db404d0810b9',
-                    'ba1d05ffc7622ac4',
-                    'dbdb20df4a27c382',
-                    '85f571b0f6d4c97a',
-                    '5998c6c7e815ab5c',
-                    '5745584806c6b4e3',
-                    'f719aa68f1ceb2ce',
-                    '4641ed6a4fb5e467',
-                    '3dad1ed0f01b2afd',
-                    '221907fe33d86082',
-                    'a5fe60be799f1dbb',
-                    '646c7f155891f37d',
                     '0a21b9f290b70971',
+                    '646c7f155891f37d',
+                    'a5fe60be799f1dbb',
+                    '221907fe33d86082',
+                    '3dad1ed0f01b2afd',
+                    '4641ed6a4fb5e467',
+                    'f719aa68f1ceb2ce',
+                    '5745584806c6b4e3',
+                    '5998c6c7e815ab5c',
+                    '85f571b0f6d4c97a',
+                    'dbdb20df4a27c382',
+                    'ba1d05ffc7622ac4',
+                    '60f8db404d0810b9',
+                    'c38ba1a7dfbbb4d7',
+                    '13f1ea0e47a7d9fd',
+                    '3fa7bcdef47ef386',
+                    '6e05d9ba4dedc168',
+                    '27491486cf097e1f'
                 ],
                 Status: 0,
                 CreateDt: '20240418154153',
@@ -164,17 +165,17 @@ class AssetTransfer extends Contract {
                 Gender: 'M',
                 Job: '직장인',
                 Txs: [
-                    '3fa7bcdef47ef386',
-                    '88f5679404471857',
-                    '557d44f69b2cf9f2',
-                    '3483aa3c6a81bc79',
-                    '0184111ae578ca01',
-                    '44487f49b487d3df',
-                    'a7bfaef4e8703f1e',
-                    'a2cfdf4be4a2606b',
-                    '126bfd89e26605c9',
-                    '82fdc340a7836bc5',
                     '1a915816070c247d',
+                    '82fdc340a7836bc5',
+                    '126bfd89e26605c9',
+                    'a2cfdf4be4a2606b',
+                    'a7bfaef4e8703f1e',
+                    '44487f49b487d3df',
+                    '0184111ae578ca01',
+                    '3483aa3c6a81bc79',
+                    '557d44f69b2cf9f2',
+                    '88f5679404471857',
+                    '3fa7bcdef47ef386'
                 ],
                 Status: 0,
                 CreateDt: '20240412020306',
@@ -188,26 +189,26 @@ class AssetTransfer extends Contract {
                 Gender: 'F',
                 Job: '직장인',
                 Txs: [
-                    'e59b3976da3ae9ba',
-                    '80a400191cedfec9',
-                    '6ee469963dd2949d',
-                    '5d84461cf3a1d112',
-                    '42f06070143005c9',
-                    'e24fe3303530ad37',
-                    'daa01cb642eebf92',
-                    'ec1cf2cf5ef34c63',
-                    'a4bc2b31fd456308',
-                    '60c624a8b3ae8fc7',
-                    '74037893752fcd15',
-                    '6aff78485893d988',
-                    'ed1ef5442232ff3e',
-                    'b241ca09a1c61fc9',
-                    '48d2dc364856456a',
-                    'f76da815ddce35b5',
-                    '9ed5668ba33ac6f4',
-                    '9e3de741417d349c',
-                    '1a915816070c247d',
                     '2518a1c63204855d',
+                    '1a915816070c247d',
+                    '9e3de741417d349c',
+                    '9ed5668ba33ac6f4',
+                    'f76da815ddce35b5',
+                    '48d2dc364856456a',
+                    'b241ca09a1c61fc9',
+                    'ed1ef5442232ff3e',
+                    '6aff78485893d988',
+                    '74037893752fcd15',
+                    '60c624a8b3ae8fc7',
+                    'a4bc2b31fd456308',
+                    'ec1cf2cf5ef34c63',
+                    'daa01cb642eebf92',
+                    'e24fe3303530ad37',
+                    '42f06070143005c9',
+                    '5d84461cf3a1d112',
+                    '6ee469963dd2949d',
+                    '80a400191cedfec9',
+                    'e59b3976da3ae9ba'
                 ],
                 Status: 0,
                 CreateDt: '20240418002159',
@@ -221,25 +222,25 @@ class AssetTransfer extends Contract {
                 Gender: 'M',
                 Job: '직장인',
                 Txs: [
-                    '0d2f96164bb5667e',
-                    '128ae20ae61de784',
-                    'd8360295389e5db9',
-                    'b52934dbd97bba4a',
-                    '9d8eef6761272019',
-                    '12cf81b032bef8ed',
-                    '60c624a8b3ae8fc7',
-                    'd7632818acfd7bbc',
-                    '04599de418893a98',
-                    '9c10688005e253e3',
-                    '8d95f9caf8a3bad9',
-                    '90757b8f5f051542',
-                    '3140e8487e468b67',
-                    '48d2dc364856456a',
-                    '221907fe33d86082',
-                    '7fb6a844a70ea98e',
-                    'a145d52f1dcbb6b5',
-                    '646c7f155891f37d',
                     '52c1dd5e829bed31',
+                    '646c7f155891f37d',
+                    'a145d52f1dcbb6b5',
+                    '7fb6a844a70ea98e',
+                    '221907fe33d86082',
+                    '48d2dc364856456a',
+                    '3140e8487e468b67',
+                    '90757b8f5f051542',
+                    '8d95f9caf8a3bad9',
+                    '9c10688005e253e3',
+                    '04599de418893a98',
+                    'd7632818acfd7bbc',
+                    '60c624a8b3ae8fc7',
+                    '12cf81b032bef8ed',
+                    '9d8eef6761272019',
+                    'b52934dbd97bba4a',
+                    'd8360295389e5db9',
+                    '128ae20ae61de784',
+                    '0d2f96164bb5667e'
                 ],
                 Status: 0,
                 CreateDt: '20240501140806',
@@ -253,25 +254,25 @@ class AssetTransfer extends Contract {
                 Gender: 'F',
                 Job: '직장인',
                 Txs: [
-                    'd070341a25dfae8b',
-                    'a18449c6c28c3a09',
-                    '41223efa72d0524d',
-                    '0380e4c1d641ab6d',
-                    'a728cadce0b3d057',
-                    'ba1d05ffc7622ac4',
-                    'ebadc0288e8c782f',
-                    '4b85ae59fb2c3929',
-                    '255640758011bbee',
-                    'b8d18511e129439e',
-                    '5745584806c6b4e3',
-                    '9c10688005e253e3',
-                    '115d07fba1c5725d',
-                    'b241ca09a1c61fc9',
-                    '3dfdd0364cc3be69',
-                    'f602c96b455f6eaa',
-                    '232e273326b3202b',
-                    'ad0af5c9424bdb83',
                     'f75e80c26b3d304c',
+                    'ad0af5c9424bdb83',
+                    '232e273326b3202b',
+                    'f602c96b455f6eaa',
+                    '3dfdd0364cc3be69',
+                    'b241ca09a1c61fc9',
+                    '115d07fba1c5725d',
+                    '9c10688005e253e3',
+                    '5745584806c6b4e3',
+                    'b8d18511e129439e',
+                    '255640758011bbee',
+                    '4b85ae59fb2c3929',
+                    'ebadc0288e8c782f',
+                    'ba1d05ffc7622ac4',
+                    'a728cadce0b3d057',
+                    '0380e4c1d641ab6d',
+                    '41223efa72d0524d',
+                    'a18449c6c28c3a09',
+                    'd070341a25dfae8b'
                 ],
                 Status: 0,
                 CreateDt: '20240403002731',
@@ -285,32 +286,32 @@ class AssetTransfer extends Contract {
                 Gender: 'M',
                 Job: '직장인',
                 Txs: [
-                    '80a400191cedfec9',
-                    'd3ee389b2cfb4a5c',
-                    'e434fae550f78cfc',
-                    '1dffa7bde61eefb3',
-                    '5a18587496a8817a',
-                    '20046116fc3cf8d3',
-                    'ad8b66dd328519ac',
-                    'daa01cb642eebf92',
-                    '255640758011bbee',
-                    '2ffdf80bde63479d',
-                    'f59210b3da9f79af',
-                    '85f571b0f6d4c97a',
-                    'f3d97b62383af4f2',
-                    'c01f98813e586e03',
-                    '39f437af48000ade',
-                    'fe28acf41532a318',
-                    '3936eca29f2d97c1',
-                    'e52a3bff90708459',
-                    '7527802ac64c5bf2',
-                    '7fb6a844a70ea98e',
-                    '6a656c605d41295b',
-                    'd1e23c83ff2a8c25',
-                    'b352835df4c96d54',
-                    'ad0af5c9424bdb83',
-                    '5e4b31ed4376273d',
                     '2518a1c63204855d',
+                    '5e4b31ed4376273d',
+                    'ad0af5c9424bdb83',
+                    'b352835df4c96d54',
+                    'd1e23c83ff2a8c25',
+                    '6a656c605d41295b',
+                    '7fb6a844a70ea98e',
+                    '7527802ac64c5bf2',
+                    'e52a3bff90708459',
+                    '3936eca29f2d97c1',
+                    'fe28acf41532a318',
+                    '39f437af48000ade',
+                    'c01f98813e586e03',
+                    'f3d97b62383af4f2',
+                    '85f571b0f6d4c97a',
+                    'f59210b3da9f79af',
+                    '2ffdf80bde63479d',
+                    '255640758011bbee',
+                    'daa01cb642eebf92',
+                    'ad8b66dd328519ac',
+                    '20046116fc3cf8d3',
+                    '5a18587496a8817a',
+                    '1dffa7bde61eefb3',
+                    'e434fae550f78cfc',
+                    'd3ee389b2cfb4a5c',
+                    '80a400191cedfec9'
                 ],
                 Status: 0,
                 CreateDt: '20240528181318',
@@ -324,29 +325,29 @@ class AssetTransfer extends Contract {
                 Gender: 'F',
                 Job: '직장인',
                 Txs: [
-                    '128ae20ae61de784',
-                    '00ebc5ffc6b3b53c',
-                    'f612e4c8f76ce175',
-                    '26b95b191943d872',
-                    '20046116fc3cf8d3',
-                    'c875379f8d7cb3d0',
-                    'ebadc0288e8c782f',
-                    'ec1cf2cf5ef34c63',
-                    'b68e6d3d87599b7b',
-                    'a4417bb5fa0a74ae',
-                    'b997430e30b04ad1',
-                    'acafedb1c4f5b7fe',
-                    'af8482431d1a5b4e',
-                    'fd1bb77792d8459d',
-                    '39f437af48000ade',
-                    'fe28acf41532a318',
-                    '18ef11fe25638582',
-                    'f602c96b455f6eaa',
-                    'a2a1d38c787dbacf',
-                    '2aa5a301b3d9c80e',
-                    'e0802b4be4c031a6',
-                    'd5e2b2a72625a8a1',
                     '4880ef2969da74e3',
+                    'd5e2b2a72625a8a1',
+                    'e0802b4be4c031a6',
+                    '2aa5a301b3d9c80e',
+                    'a2a1d38c787dbacf',
+                    'f602c96b455f6eaa',
+                    '18ef11fe25638582',
+                    'fe28acf41532a318',
+                    '39f437af48000ade',
+                    'fd1bb77792d8459d',
+                    'af8482431d1a5b4e',
+                    'acafedb1c4f5b7fe',
+                    'b997430e30b04ad1',
+                    'a4417bb5fa0a74ae',
+                    'b68e6d3d87599b7b',
+                    'ec1cf2cf5ef34c63',
+                    'ebadc0288e8c782f',
+                    'c875379f8d7cb3d0',
+                    '20046116fc3cf8d3',
+                    '26b95b191943d872',
+                    'f612e4c8f76ce175',
+                    '00ebc5ffc6b3b53c',
+                    '128ae20ae61de784'
                 ],
                 Status: 1,
                 CreateDt: '20240511184031',
@@ -360,29 +361,29 @@ class AssetTransfer extends Contract {
                 Gender: 'M',
                 Job: '직장인',
                 Txs: [
-                    '16516ee8f4c8fd3a',
-                    '62238fc4268722e5',
-                    '557d44f69b2cf9f2',
-                    '0380e4c1d641ab6d',
-                    '5a18587496a8817a',
-                    'c875379f8d7cb3d0',
-                    '09a8677c7678bce6',
-                    '1cdf20440f395bf6',
-                    'e97d4f29b2e3fc21',
-                    'f59210b3da9f79af',
-                    'a23b28dc5fdb68cb',
-                    '7a6b920b268ddab8',
-                    '6d9578d28573fa69',
-                    '7046f79580b37766',
-                    '44ff1c4761625c6b',
-                    'e79122dacaf90ea5',
-                    '5106434559aa32eb',
-                    'd013044b9e637f22',
-                    '7527802ac64c5bf2',
-                    'a460c6d98e142f81',
-                    '8bb9703d58219adc',
-                    'a145d52f1dcbb6b5',
                     'f75e80c26b3d304c',
+                    'a145d52f1dcbb6b5',
+                    '8bb9703d58219adc',
+                    'a460c6d98e142f81',
+                    '7527802ac64c5bf2',
+                    'd013044b9e637f22',
+                    '5106434559aa32eb',
+                    'e79122dacaf90ea5',
+                    '44ff1c4761625c6b',
+                    '7046f79580b37766',
+                    '6d9578d28573fa69',
+                    '7a6b920b268ddab8',
+                    'a23b28dc5fdb68cb',
+                    'f59210b3da9f79af',
+                    'e97d4f29b2e3fc21',
+                    '1cdf20440f395bf6',
+                    '09a8677c7678bce6',
+                    'c875379f8d7cb3d0',
+                    '5a18587496a8817a',
+                    '0380e4c1d641ab6d',
+                    '557d44f69b2cf9f2',
+                    '62238fc4268722e5',
+                    '16516ee8f4c8fd3a'
                 ],
                 Status: 0,
                 CreateDt: '20240408190754',
@@ -396,22 +397,22 @@ class AssetTransfer extends Contract {
                 Gender: 'F',
                 Job: '직장인',
                 Txs: [
-                    'ab8dbd82fa9cc226',
-                    'cca54fc8c4b9f096',
-                    '010da87dbf0f7f1a',
-                    '1dffa7bde61eefb3',
-                    '1b868e46b6ef54f6',
-                    '82dccfe49e296f6f',
-                    'a2cfdf4be4a2606b',
-                    'a23b28dc5fdb68cb',
-                    'f3d97b62383af4f2',
-                    'ce4f912df62b9b44',
-                    'ca5bd420c07043d7',
-                    '44edfdc1170ed5c3',
-                    'f719aa68f1ceb2ce',
-                    'a460c6d98e142f81',
-                    'a5fe60be799f1dbb',
                     'f2d4c9259501f9c2',
+                    'a5fe60be799f1dbb',
+                    'a460c6d98e142f81',
+                    'f719aa68f1ceb2ce',
+                    '44edfdc1170ed5c3',
+                    'ca5bd420c07043d7',
+                    'ce4f912df62b9b44',
+                    'f3d97b62383af4f2',
+                    'a23b28dc5fdb68cb',
+                    'a2cfdf4be4a2606b',
+                    '82dccfe49e296f6f',
+                    '1b868e46b6ef54f6',
+                    '1dffa7bde61eefb3',
+                    '010da87dbf0f7f1a',
+                    'cca54fc8c4b9f096',
+                    'ab8dbd82fa9cc226'
                 ],
                 Status: 0,
                 CreateDt: '20240425121638',
@@ -425,21 +426,21 @@ class AssetTransfer extends Contract {
                 Gender: 'M',
                 Job: '직장인',
                 Txs: [
-                    '84f5b16432389130',
-                    '41223efa72d0524d',
-                    '5d84461cf3a1d112',
-                    'e39bf33c1316470f',
-                    '41b20e1ad5dee899',
-                    'e24fe3303530ad37',
-                    '4b85ae59fb2c3929',
-                    'a7bfaef4e8703f1e',
-                    'd7632818acfd7bbc',
-                    '5f9d3138613e3686',
-                    'b60ebece5c0db073',
-                    '18ef11fe25638582',
-                    '4ef7e42559b2b503',
-                    '9e3de741417d349c',
                     '6adc4a30ae16e985',
+                    '9e3de741417d349c',
+                    '4ef7e42559b2b503',
+                    '18ef11fe25638582',
+                    'b60ebece5c0db073',
+                    '5f9d3138613e3686',
+                    'd7632818acfd7bbc',
+                    'a7bfaef4e8703f1e',
+                    '4b85ae59fb2c3929',
+                    'e24fe3303530ad37',
+                    '41b20e1ad5dee899',
+                    'e39bf33c1316470f',
+                    '5d84461cf3a1d112',
+                    '41223efa72d0524d',
+                    '84f5b16432389130'
                 ],
                 Status: 0,
                 CreateDt: '20240429214227',
@@ -453,31 +454,31 @@ class AssetTransfer extends Contract {
                 Gender: 'F',
                 Job: '종교인',
                 Txs: [
-                    'f063e516bc8ef82e',
-                    'e59b3976da3ae9ba',
-                    '467225a5f8075368',
-                    'c38ba1a7dfbbb4d7',
-                    'e434fae550f78cfc',
-                    'e08690641ed9037f',
-                    '1cdf20440f395bf6',
-                    '5e974240cb772719',
-                    '44487f49b487d3df',
-                    '0b7d29c2fd5e202d',
-                    'a4417bb5fa0a74ae',
-                    'b997430e30b04ad1',
-                    'af8482431d1a5b4e',
-                    '81e6d3dee58826da',
-                    'c3b1a7db0685f583',
-                    '44ff1c4761625c6b',
-                    '44edfdc1170ed5c3',
-                    '5106434559aa32eb',
-                    '77611c82c7082cbd',
-                    '4641ed6a4fb5e467',
-                    '3dad1ed0f01b2afd',
-                    '0a8701be3c9a6f76',
-                    '2aa5a301b3d9c80e',
-                    'f2d4c9259501f9c2',
                     '4880ef2969da74e3',
+                    'f2d4c9259501f9c2',
+                    '2aa5a301b3d9c80e',
+                    '0a8701be3c9a6f76',
+                    '3dad1ed0f01b2afd',
+                    '4641ed6a4fb5e467',
+                    '77611c82c7082cbd',
+                    '5106434559aa32eb',
+                    '44edfdc1170ed5c3',
+                    '44ff1c4761625c6b',
+                    'c3b1a7db0685f583',
+                    '81e6d3dee58826da',
+                    'af8482431d1a5b4e',
+                    'b997430e30b04ad1',
+                    'a4417bb5fa0a74ae',
+                    '0b7d29c2fd5e202d',
+                    '44487f49b487d3df',
+                    '5e974240cb772719',
+                    '1cdf20440f395bf6',
+                    'e08690641ed9037f',
+                    'e434fae550f78cfc',
+                    'c38ba1a7dfbbb4d7',
+                    '467225a5f8075368',
+                    'e59b3976da3ae9ba',
+                    'f063e516bc8ef82e'
                 ],
                 Status: 0,
                 CreateDt: '20240512120436',
@@ -491,30 +492,30 @@ class AssetTransfer extends Contract {
                 Gender: 'M',
                 Job: '무직',
                 Txs: [
-                    '2beebe9cd77df812',
-                    'c6e84add6eb0eacf',
-                    'ffecb9640b264dd0',
-                    '88bee2a2f5801904',
-                    '86602b88fc60a0bd',
-                    'ab8dbd82fa9cc226',
-                    'cca54fc8c4b9f096',
-                    'd8360295389e5db9',
-                    '927104305d76f019',
-                    'ee37c71aed8da23e',
-                    '42f06070143005c9',
-                    'e97d4f29b2e3fc21',
-                    'f99a5a90e41f175b',
-                    'c01f98813e586e03',
-                    'b1bc4607ce02b89f',
-                    '2bb1b78eb7d3dc58',
-                    '74037893752fcd15',
-                    'b60ebece5c0db073',
-                    '77611c82c7082cbd',
-                    '6f5272d09d67f9ae',
-                    '7583f8f28f195fb6',
-                    '126bfd89e26605c9',
-                    '4ef7e42559b2b503',
                     '232e273326b3202b',
+                    '4ef7e42559b2b503',
+                    '126bfd89e26605c9',
+                    '7583f8f28f195fb6',
+                    '6f5272d09d67f9ae',
+                    '77611c82c7082cbd',
+                    'b60ebece5c0db073',
+                    '74037893752fcd15',
+                    '2bb1b78eb7d3dc58',
+                    'b1bc4607ce02b89f',
+                    'c01f98813e586e03',
+                    'f99a5a90e41f175b',
+                    'e97d4f29b2e3fc21',
+                    '42f06070143005c9',
+                    'ee37c71aed8da23e',
+                    '927104305d76f019',
+                    'd8360295389e5db9',
+                    'cca54fc8c4b9f096',
+                    'ab8dbd82fa9cc226',
+                    '86602b88fc60a0bd',
+                    '88bee2a2f5801904',
+                    'ffecb9640b264dd0',
+                    'c6e84add6eb0eacf',
+                    '2beebe9cd77df812'
                 ],
                 Status: 1,
                 CreateDt: '20240425155253',
@@ -528,37 +529,37 @@ class AssetTransfer extends Contract {
                 Gender: 'F',
                 Job: '직장인',
                 Txs: [
-                    '22b990aee89f8ab2',
-                    '0a39d0b6302e0aa5',
-                    '32f07acc7b759d10',
-                    '4b1958e25c89ca4c',
-                    '27491486cf097e1f',
-                    '89a0edb7e9cd0acf',
-                    'cd3bdfbe3dc3298a',
-                    '5a946fc44400a44d',
-                    '48eaba1c7fb722de',
-                    '183424efde79dc21',
-                    'e3b0af950199d4f0',
-                    '22362aa16faf6e19',
-                    'a9515bc73a5ef743',
-                    '7047317cdfe241f2',
-                    '88f5679404471857',
-                    'f416be384b22e4a7',
-                    '010da87dbf0f7f1a',
-                    '6ee469963dd2949d',
-                    '92d6775f1bc4957e',
-                    'ad8b66dd328519ac',
-                    'b6fc4a984e8e8d0d',
-                    '43d7dd7f43f1225e',
-                    'fd1bb77792d8459d',
-                    'ceaa1471d579c547',
-                    '606862e282b6c066',
-                    '483e55fc3956f50b',
-                    '6f5272d09d67f9ae',
-                    'd013044b9e637f22',
-                    'eb5e1c6073f46cd3',
-                    '47ce003faeba41ef',
                     '6a656c605d41295b',
+                    '47ce003faeba41ef',
+                    'eb5e1c6073f46cd3',
+                    'd013044b9e637f22',
+                    '6f5272d09d67f9ae',
+                    '483e55fc3956f50b',
+                    '606862e282b6c066',
+                    'ceaa1471d579c547',
+                    'fd1bb77792d8459d',
+                    '43d7dd7f43f1225e',
+                    'b6fc4a984e8e8d0d',
+                    'ad8b66dd328519ac',
+                    '92d6775f1bc4957e',
+                    '6ee469963dd2949d',
+                    '010da87dbf0f7f1a',
+                    'f416be384b22e4a7',
+                    '88f5679404471857',
+                    '7047317cdfe241f2',
+                    'a9515bc73a5ef743',
+                    '22362aa16faf6e19',
+                    'e3b0af950199d4f0',
+                    '183424efde79dc21',
+                    '48eaba1c7fb722de',
+                    '5a946fc44400a44d',
+                    'cd3bdfbe3dc3298a',
+                    '89a0edb7e9cd0acf',
+                    '27491486cf097e1f',
+                    '4b1958e25c89ca4c',
+                    '32f07acc7b759d10',
+                    '0a39d0b6302e0aa5',
+                    '22b990aee89f8ab2'
                 ],
                 Status: 0,
                 CreateDt: '20240408162022',
@@ -572,25 +573,25 @@ class AssetTransfer extends Contract {
                 Gender: 'F',
                 Job: '직장인',
                 Txs: [
-                    '2e2edb4d1218551e',
-                    'f452a55722fc405b',
-                    '62238fc4268722e5',
-                    'cee19c2e2fb49e87',
-                    '3eac63e3740dc76f',
-                    'e08690641ed9037f',
-                    '0184111ae578ca01',
-                    '92d6775f1bc4957e',
-                    '2ffdf80bde63479d',
-                    'a4bc2b31fd456308',
-                    '6d9578d28573fa69',
-                    'b1bc4607ce02b89f',
-                    '5998c6c7e815ab5c',
-                    '606862e282b6c066',
-                    'ed1ef5442232ff3e',
-                    '90757b8f5f051542',
-                    '7583f8f28f195fb6',
-                    'eb5e1c6073f46cd3',
                     'a2a1d38c787dbacf',
+                    'eb5e1c6073f46cd3',
+                    '7583f8f28f195fb6',
+                    '90757b8f5f051542',
+                    'ed1ef5442232ff3e',
+                    '606862e282b6c066',
+                    '5998c6c7e815ab5c',
+                    'b1bc4607ce02b89f',
+                    '6d9578d28573fa69',
+                    'a4bc2b31fd456308',
+                    '2ffdf80bde63479d',
+                    '92d6775f1bc4957e',
+                    '0184111ae578ca01',
+                    'e08690641ed9037f',
+                    '3eac63e3740dc76f',
+                    'cee19c2e2fb49e87',
+                    '62238fc4268722e5',
+                    'f452a55722fc405b',
+                    '2e2edb4d1218551e'
                 ],
                 Status: 0,
                 CreateDt: '20240525125008',
@@ -604,25 +605,25 @@ class AssetTransfer extends Contract {
                 Gender: 'M',
                 Job: '학생',
                 Txs: [
-                    'ad5ce1594c21e109',
-                    '9e4fbc3ea4c92ad9',
-                    '41b3b0fddb376660',
-                    '96310a2d095e1a35',
-                    'f416be384b22e4a7',
-                    'd3ee389b2cfb4a5c',
-                    'cee19c2e2fb49e87',
-                    'a728cadce0b3d057',
-                    '41b20e1ad5dee899',
-                    '60f8db404d0810b9',
-                    'ff65012b1db8270c',
-                    'b8d18511e129439e',
-                    'f99a5a90e41f175b',
-                    'ca5bd420c07043d7',
-                    '2bb1b78eb7d3dc58',
-                    '8d95f9caf8a3bad9',
-                    'e52a3bff90708459',
-                    'e0802b4be4c031a6',
                     '82fdc340a7836bc5',
+                    'e0802b4be4c031a6',
+                    'e52a3bff90708459',
+                    '8d95f9caf8a3bad9',
+                    '2bb1b78eb7d3dc58',
+                    'ca5bd420c07043d7',
+                    'f99a5a90e41f175b',
+                    'b8d18511e129439e',
+                    'ff65012b1db8270c',
+                    '60f8db404d0810b9',
+                    '41b20e1ad5dee899',
+                    'a728cadce0b3d057',
+                    'cee19c2e2fb49e87',
+                    'd3ee389b2cfb4a5c',
+                    'f416be384b22e4a7',
+                    '96310a2d095e1a35',
+                    '41b3b0fddb376660',
+                    '9e4fbc3ea4c92ad9',
+                    'ad5ce1594c21e109'
                 ],
                 Status: 0,
                 CreateDt: '20240420130408',
@@ -636,20 +637,20 @@ class AssetTransfer extends Contract {
                 Gender: 'M',
                 Job: '테러리스트',
                 Txs: [
-                    '467225a5f8075368',
-                    '00ebc5ffc6b3b53c',
-                    'e39bf33c1316470f',
-                    '9d8eef6761272019',
-                    '82dccfe49e296f6f',
-                    '0b7d29c2fd5e202d',
-                    '3a4bbf26c38b134f',
-                    '7a6b920b268ddab8',
-                    '5f9d3138613e3686',
-                    '7046f79580b37766',
-                    '6aff78485893d988',
-                    '115d07fba1c5725d',
-                    '47ce003faeba41ef',
                     '5e4b31ed4376273d',
+                    '47ce003faeba41ef',
+                    '115d07fba1c5725d',
+                    '6aff78485893d988',
+                    '7046f79580b37766',
+                    '5f9d3138613e3686',
+                    '7a6b920b268ddab8',
+                    '3a4bbf26c38b134f',
+                    '0b7d29c2fd5e202d',
+                    '82dccfe49e296f6f',
+                    '9d8eef6761272019',
+                    'e39bf33c1316470f',
+                    '00ebc5ffc6b3b53c',
+                    '467225a5f8075368'
                 ],
                 Status: 2,
                 CreateDt: '20240519091036',
@@ -663,22 +664,22 @@ class AssetTransfer extends Contract {
                 Gender: 'F',
                 Job: '종교인',
                 Txs: [
-                    '3034467879976c91',
-                    'b52934dbd97bba4a',
-                    '26b95b191943d872',
-                    '1b868e46b6ef54f6',
-                    '09a8677c7678bce6',
-                    'fd51bb23646ae265',
-                    'dbdb20df4a27c382',
-                    'b6fc4a984e8e8d0d',
-                    'ce4f912df62b9b44',
-                    '81e6d3dee58826da',
-                    'c3b1a7db0685f583',
-                    '04599de418893a98',
-                    '3936eca29f2d97c1',
-                    'f76da815ddce35b5',
-                    'd5e2b2a72625a8a1',
                     '52c1dd5e829bed31',
+                    'd5e2b2a72625a8a1',
+                    'f76da815ddce35b5',
+                    '3936eca29f2d97c1',
+                    '04599de418893a98',
+                    'c3b1a7db0685f583',
+                    '81e6d3dee58826da',
+                    'ce4f912df62b9b44',
+                    'b6fc4a984e8e8d0d',
+                    'dbdb20df4a27c382',
+                    'fd51bb23646ae265',
+                    '09a8677c7678bce6',
+                    '1b868e46b6ef54f6',
+                    '26b95b191943d872',
+                    'b52934dbd97bba4a',
+                    '3034467879976c91'
                 ],
                 Status: 2,
                 CreateDt: '20240417090815',
@@ -688,297 +689,11 @@ class AssetTransfer extends Contract {
         
         const transactions = [
             {
-                TxId: 'f063e516bc8ef82e',
-                Amount: 1000000,
-                Sender: '7a5d449fee32da8ddaa3ad6b32b785593c1e5656',
-                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: '2beebe9cd77df812',
-                Amount: 500000,
-                Sender: 'b284bea203a5c7e0fbae062650c067297579106a',
-                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: '22b990aee89f8ab2',
-                Amount: 1000000,
-                Sender: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: '2e2edb4d1218551e',
-                Amount: 300000,
-                Sender: '8e5e46449a39ed3d1fb95ca06a3183ce8276adb9',
-                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: 'ad5ce1594c21e109',
-                Amount: 200000,
-                Sender: '8c7bb8ca5c02878641bf43fb186c88ee8b116605',
-                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: 'c6e84add6eb0eacf',
-                Amount: 700000,
-                Sender: 'b284bea203a5c7e0fbae062650c067297579106a',
-                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: 'ffecb9640b264dd0',
-                Amount: 300000,
-                Sender: 'b284bea203a5c7e0fbae062650c067297579106a',
-                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: '88bee2a2f5801904',
-                Amount: 3000000,
-                Sender: 'b284bea203a5c7e0fbae062650c067297579106a',
-                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: '86602b88fc60a0bd',
-                Amount: 2310000,
-                Sender: 'b284bea203a5c7e0fbae062650c067297579106a',
-                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: '9e4fbc3ea4c92ad9',
-                Amount: 190000,
-                Sender: '8c7bb8ca5c02878641bf43fb186c88ee8b116605',
-                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: '41b3b0fddb376660',
-                Amount: 500000,
-                Sender: '8c7bb8ca5c02878641bf43fb186c88ee8b116605',
-                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: 'd070341a25dfae8b',
-                Amount: 100000,
-                Sender: '78e15f1699dbb6c8a438e90c02044cfa9b9233f3',
-                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: '96310a2d095e1a35',
-                Amount: 3000000,
-                Sender: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Receiver: '8c7bb8ca5c02878641bf43fb186c88ee8b116605',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: '0a39d0b6302e0aa5',
-                Amount: 1000000,
-                Sender: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: '32f07acc7b759d10',
-                Amount: 1000000,
-                Sender: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Receiver: '0a8077182848001f47826e249f5d8e821ea263bd',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: '4b1958e25c89ca4c',
-                Amount: 1000000,
-                Sender: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Receiver: '0c697c7aa29826021cf94509f27f19882d3ea8be',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: '27491486cf097e1f',
-                Amount: 1000000,
-                Sender: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Receiver: '8cea08369dd29573b8ece1984284075296e8368a',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: '89a0edb7e9cd0acf',
-                Amount: 100000,
-                Sender: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: 'cd3bdfbe3dc3298a',
-                Amount: 100000,
-                Sender: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: '5a946fc44400a44d',
-                Amount: 100000,
-                Sender: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: '48eaba1c7fb722de',
-                Amount: 100000,
-                Sender: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: '183424efde79dc21',
-                Amount: 100000,
-                Sender: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
-                Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: 'e3b0af950199d4f0',
-                Amount: 100000,
-                Sender: '0a8077182848001f47826e249f5d8e821ea263bd',
-                Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: '22362aa16faf6e19',
-                Amount: 100000,
-                Sender: '0a8077182848001f47826e249f5d8e821ea263bd',
-                Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: 'a9515bc73a5ef743',
-                Amount: 100000,
-                Sender: '0a8077182848001f47826e249f5d8e821ea263bd',
-                Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
-                TxId: '7047317cdfe241f2',
-                Amount: 100000,
-                Sender: '0a8077182848001f47826e249f5d8e821ea263bd',
-                Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
-                Timestamp: '20240603231400',
-                IsSt: false,
-                StCode: 0,
-                StSvrt: 0,
-                IsExecuted: true
-            },
-            {
                 TxId: '6e05d9ba4dedc168',
                 Amount: 230000000,
                 Sender: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
                 Receiver: '8cea08369dd29573b8ece1984284075296e8368a',
-                Timestamp: '20240603231400',
+                Timestamp: '20240401025625',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -989,7 +704,7 @@ class AssetTransfer extends Contract {
                 Amount: 140000000,
                 Sender: '0a8077182848001f47826e249f5d8e821ea263bd',
                 Receiver: '8e5e46449a39ed3d1fb95ca06a3183ce8276adb9',
-                Timestamp: '20240603231400',
+                Timestamp: '20240401145407',
                 IsSt: false,
                 StCode: 0,
                 StSvrt: 0,
@@ -2909,6 +2624,292 @@ class AssetTransfer extends Contract {
                 StSvrt: 0,
                 IsExecuted: true
             },
+            {
+                TxId: 'f063e516bc8ef82e',
+                Amount: 1000000,
+                Sender: '7a5d449fee32da8ddaa3ad6b32b785593c1e5656',
+                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: '2beebe9cd77df812',
+                Amount: 500000,
+                Sender: 'b284bea203a5c7e0fbae062650c067297579106a',
+                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: '22b990aee89f8ab2',
+                Amount: 1000000,
+                Sender: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
+                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: '2e2edb4d1218551e',
+                Amount: 300000,
+                Sender: '8e5e46449a39ed3d1fb95ca06a3183ce8276adb9',
+                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: 'ad5ce1594c21e109',
+                Amount: 200000,
+                Sender: '8c7bb8ca5c02878641bf43fb186c88ee8b116605',
+                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: 'c6e84add6eb0eacf',
+                Amount: 700000,
+                Sender: 'b284bea203a5c7e0fbae062650c067297579106a',
+                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: 'ffecb9640b264dd0',
+                Amount: 300000,
+                Sender: 'b284bea203a5c7e0fbae062650c067297579106a',
+                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: '88bee2a2f5801904',
+                Amount: 3000000,
+                Sender: 'b284bea203a5c7e0fbae062650c067297579106a',
+                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: '86602b88fc60a0bd',
+                Amount: 2310000,
+                Sender: 'b284bea203a5c7e0fbae062650c067297579106a',
+                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: '9e4fbc3ea4c92ad9',
+                Amount: 190000,
+                Sender: '8c7bb8ca5c02878641bf43fb186c88ee8b116605',
+                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: '41b3b0fddb376660',
+                Amount: 500000,
+                Sender: '8c7bb8ca5c02878641bf43fb186c88ee8b116605',
+                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: 'd070341a25dfae8b',
+                Amount: 100000,
+                Sender: '78e15f1699dbb6c8a438e90c02044cfa9b9233f3',
+                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: '96310a2d095e1a35',
+                Amount: 3000000,
+                Sender: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
+                Receiver: '8c7bb8ca5c02878641bf43fb186c88ee8b116605',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: '0a39d0b6302e0aa5',
+                Amount: 1000000,
+                Sender: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
+                Receiver: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: '32f07acc7b759d10',
+                Amount: 1000000,
+                Sender: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
+                Receiver: '0a8077182848001f47826e249f5d8e821ea263bd',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: '4b1958e25c89ca4c',
+                Amount: 1000000,
+                Sender: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
+                Receiver: '0c697c7aa29826021cf94509f27f19882d3ea8be',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: '27491486cf097e1f',
+                Amount: 1000000,
+                Sender: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
+                Receiver: '8cea08369dd29573b8ece1984284075296e8368a',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: '89a0edb7e9cd0acf',
+                Amount: 100000,
+                Sender: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
+                Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: 'cd3bdfbe3dc3298a',
+                Amount: 100000,
+                Sender: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
+                Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: '5a946fc44400a44d',
+                Amount: 100000,
+                Sender: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
+                Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: '48eaba1c7fb722de',
+                Amount: 100000,
+                Sender: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
+                Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: '183424efde79dc21',
+                Amount: 100000,
+                Sender: '7cafb40b30e8f7f0c8f57393e2ea63ff58a95907',
+                Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
+                Timestamp: '20240603103500',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: 'e3b0af950199d4f0',
+                Amount: 100000,
+                Sender: '0a8077182848001f47826e249f5d8e821ea263bd',
+                Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: '22362aa16faf6e19',
+                Amount: 100000,
+                Sender: '0a8077182848001f47826e249f5d8e821ea263bd',
+                Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: 'a9515bc73a5ef743',
+                Amount: 100000,
+                Sender: '0a8077182848001f47826e249f5d8e821ea263bd',
+                Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            },
+            {
+                TxId: '7047317cdfe241f2',
+                Amount: 100000,
+                Sender: '0a8077182848001f47826e249f5d8e821ea263bd',
+                Receiver: '1a677a3795f8a24b5dd99f83ea31f87595e25db1',
+                Timestamp: '20240603102412',
+                IsSt: false,
+                StCode: 0,
+                StSvrt: 0,
+                IsExecuted: true
+            }
         ];
 
         const watchList = [
@@ -3029,10 +3030,9 @@ class AssetTransfer extends Contract {
 
     async GetTransaction(ctx, txId){
         const tx = await ctx.stub.getState(txId); 
-        if (!tx || tx.length === 0) {
-            //throw new Error(`The TxID:${txId} does not exist`);
+        if (!tx || tx.length === 0) 
             return false;
-        }
+        
         return tx.toString();
     }
     
@@ -3054,52 +3054,32 @@ class AssetTransfer extends Contract {
         return JSON.stringify(allTransactions);
     }
 
-    async UpdateUser(ctx, address, property, value){
+    async UpdateUser(ctx, address, balance, age, gender, job, status){
         const user = JSON.parse(await this.GetUser(ctx, address));
 
-        switch(String(property)){
-            case 'Balance' : { 
-                user.Balance = value;
-                break; 
-            }
-            case 'Age' : { 
-                user.Age = value;
-                break; 
-            }
-            case 'Gender' : { 
-                user.Gender = value;
-                break; 
-            }
-            case 'Job' : { 
-                user.Job = value;
-                break; 
-            }
-            case 'Status' : { 
-                user.Status = value;
-                break; 
-            }
-            default: {
-                user.Status = 500;
-            } 
-        }
-//        user.UpdateDt = this.GetTimestamp();
+        user.Balance = balance;
+        user.Age = age;
+        user.Gender = gender;
+        user.Job = job;
+        user.Status = status;
+        user.UpdateDt = this.GetTimestamp();
 
-        const newUser = {
-            Address: address,
-            Owner: user.Owner,
-            Balance: user.Balance,
-            Age: user.AddUser,
-            Gender: user.Gender,
-            Job: user.Job,
-            Txs: user.Txs,
-            Status: user.Status,
-            CreateDt: user.CreateDt,
-            UpdateDt: this.GetTimestamp(),
-            docType: user.docType
-        };
+        // const newUser = {
+        //     Address: address,
+        //     Owner: user.Owner,
+        //     Balance: user.Balance,
+        //     Age: user.Age,
+        //     Gender: user.Gender,
+        //     Job: user.Job,
+        //     Txs: user.Txs,
+        //     Status: user.Status,
+        //     CreateDt: user.CreateDt,
+        //     UpdateDt: this.GetTimestamp(),
+        //     docType: user.docType
+        // };
 
         //await ctx.stub.putState(address, null);
-        return await ctx.stub.putState(address, Buffer.from(stringify(newUser)));
+        return await ctx.stub.putState(address, Buffer.from(stringify(user)));
         //return await ctx.stub.deleteState(address);
     }
 
@@ -3135,13 +3115,12 @@ class AssetTransfer extends Contract {
 
 
         //Balance 체크는 웹에서 GetUser를 통해 먼저 검증할 것 -> 트랜잭션 생성문제. 여기서는 ST만 filtering하는 걸로 
-
         const senderTxs = ledger.filter(tx => sender.Txs.includes(tx.TxId));
         const receiverTxs = ledger.filter(tx => receiver.Txs.includes(tx.TxId));
 
         let stCode = 0;
         let stSvrt = 0
-        // 아래 CheckCode 함수를 병렬처리할 수 있는 방법???
+        
         if(this.CheckCode119(sender, senderTxs, amount)){
             stCode = 119;
             stSvrt = 9;
@@ -3224,7 +3203,8 @@ class AssetTransfer extends Contract {
     //[1일] 합산 [1천만 원] 이상의 가상자산 입금 후 혹은 동시에 당일 [1일] 합산 [1천만 원] 이상 가상자산 출금
     CheckCode101(sender, senderTxs, amount) { 
 
-        if(senderTxs.length == 0 ) return false;
+        if(senderTxs.length == 0 ) 
+            return false;
 
         let index = senderTxs.length - 1;
         let tx = senderTxs[index];    
@@ -3243,7 +3223,7 @@ class AssetTransfer extends Contract {
 
             if(tx.senderAddress === sender.Address) // 출금
                 sendedAmount += tx.Amount;
-            else(tx.receiverAddress === sender.Address)  // 입금
+            else if(tx.receiverAddress === sender.Address)  // 입금
                 receivedAmount += tx.Amount;
  
             tx = senderTxs[--index]; 
@@ -3270,6 +3250,7 @@ class AssetTransfer extends Contract {
         while(index > 0){
             if((lastTimestamp - tx.Timestamp) >= H24) 
                 break;
+
             if((tx.senderAddress === sender.Address) && (tx.Amount >= 1000000))    
                 count ++;
             
@@ -3328,7 +3309,7 @@ class AssetTransfer extends Contract {
             if((tx.senderAddress === sender.Address) )    
                 count ++;
             
-            tx = ledger.filter(l => l.TxId === sender.Txs[--index]); 
+            tx = txs[--index]; 
         }
 
         count ++; 
@@ -3379,9 +3360,6 @@ class AssetTransfer extends Contract {
     CheckCode113(sender, txs, amount){
         if(txs.length == 0 || (!['무직', '학생', '종교인'].includes(sender.Job))) 
             return false;
-
-        // if(amount >= 30000000) 
-        //     return true;
 
         let index = sender.Txs.length - 1;
         let tx = txs[index];
@@ -3467,8 +3445,6 @@ class AssetTransfer extends Contract {
             return false;
 
 
-
-
         return false;
     }
 
@@ -3480,7 +3456,7 @@ class AssetTransfer extends Contract {
         return (amount >= 1000000);
     }
 
-    //[5백만 원] 이상 입금 후 [30분] 이내에 출금
+    //일일 합산 [5백만원] 이상 입금 후 [30분] 이내에 출금
     CheckCode121(sender, txs){
         if(txs.length == 0) 
             return false;
@@ -3489,7 +3465,7 @@ class AssetTransfer extends Contract {
         let tx = txs[index];
         const lastTimestamp = tx.Timestamp;
 
-        if(this.GetTimestamp() - lastTimestamp > 3000) //30분
+        if(this.GetTimestamp() - lastTimestamp > H24) 
             return false;
 
         while(index > 0){
@@ -3504,7 +3480,6 @@ class AssetTransfer extends Contract {
         return false;
     }
 
-    //pad(n) { return (n < 10 ? '0' : '') + n; }
     GetTimestamp(){
         let pad = (n) => (n < 10 ? '0' : '') + n;
         const date = new Date();
@@ -3515,7 +3490,6 @@ class AssetTransfer extends Contract {
             pad(date.getMinutes()) +
             pad(date.getSeconds());
       }
-
 }
 
 module.exports = AssetTransfer;
