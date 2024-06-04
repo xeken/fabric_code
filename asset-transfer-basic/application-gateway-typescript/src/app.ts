@@ -104,7 +104,7 @@ main().then((ctx: any) => {
 	})
 	
 	app.get('/selectTrx', async (req: any, res: any) => {
-	        // res.send(await getAllTransactions(ctx));
+	        res.send(await getAllTransactions(ctx));
 	})
 
 	app.get('/selectWatchList', async (req: any, res: any) => {
