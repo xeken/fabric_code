@@ -3187,6 +3187,7 @@ class AssetTransfer extends Contract {
         
         newTransaction.Timestamp = this.GetTimestamp();
         newTransaction.IsSt = stCode != 0; /* boolean */
+        newTransaction.IsExecuted = (stCode == 0) ? true : false;
         newTransaction.StCode = stCode; /* ST Rule Set Number */
         newTransaction.StSvrt = stSvrt; /* 0: 미해당, 1: 경고 후 통과, 9: 거래 불가 */
         newTransaction.docType = "transaction";
