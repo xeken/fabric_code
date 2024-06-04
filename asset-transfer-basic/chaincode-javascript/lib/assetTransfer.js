@@ -3197,9 +3197,9 @@ class AssetTransfer extends Contract {
         sender.Txs.push(hash);
         receiver.Txs.push(hash);
 
-        // await ctx.stub.putState(sender.Address, Buffer.from(stringify(sortKeysRecursive(sender))));
-        // await ctx.stub.putState(receiver.Address, Buffer.from(stringify(sortKeysRecursive(receiver))));
-        // await ctx.stub.putState(hash, Buffer.from(stringify(sortKeysRecursive(newTransaction))));
+        await ctx.stub.putState(sender.Address, Buffer.from(stringify(sortKeysRecursive(sender))));
+        await ctx.stub.putState(receiver.Address, Buffer.from(stringify(sortKeysRecursive(receiver))));
+        await ctx.stub.putState(hash, Buffer.from(stringify(sortKeysRecursive(newTransaction))));
 
         return JSON.stringify(newTransaction);
         //트랜잭션을 생성하고, 이후 updateUser를 하는 과정에서 st를 체크, 0이면 amount 업데이트, 이외는 보류

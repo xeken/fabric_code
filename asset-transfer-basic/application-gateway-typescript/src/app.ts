@@ -211,6 +211,8 @@ async function getWatchList(contract: Contract): Promise<any> {
 async function transfer(contract: Contract, payload: any): Promise<any> {
 	let result = await contract.submitTransaction('Transfer', payload.sender.trim(), payload.receiver.trim(), payload.amount.toString().trim());
 	let result2 = Object.keys(result).map((key: any) => String.fromCharCode(result[key])).join('');
+	console.log(result2);
+
 	return result2;
 }
 
