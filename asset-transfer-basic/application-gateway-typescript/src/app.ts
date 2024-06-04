@@ -63,29 +63,11 @@ async function main(): Promise<any> {
     });
 
     try {
-        // Get a network instance representing the channel where the smart contract is deployed.
         const network = gateway.getNetwork(channelName);
 
-        // Get the smart contract from the network.
         const contract = network.getContract(chaincodeName);
 
-        // Initialize a set of asset data on the ledger using the chaincode 'InitLedger' function.
         await initLedger(contract);
-
-        // Return all the current assets on the ledger.
-        // await getAllAssets(contract);
-
-        // Create a new asset on the ledger.
-        // await createAsset(contract);
-
-        // Update an existing asset asynchronously.
-        // await transferAssetAsync(contract);
-
-        // Get the asset details by assetID.
-        // await readAssetByID(contract);
-
-        // Update an asset which does not exist.
-        // await updateNonExistentAsset(contract)
 	
 	return contract;
     } finally {
@@ -114,10 +96,7 @@ main().then((ctx: any) => {
 	})
 
 	app.post('/updateUser', async (req: any, res: any) => {
-	        for(let obj of Object.entries(req.body)) {
-			await updateUser(ctx, req.body.address, obj[0], obj[1])	
-		}
-	        res.send(req.body);
+		res.send(await updateUser(ctx, req.body.Address, req.body.Balance, req.body.Age, req.body.Gender, req.body.Job, req.body.Status));
 	})
 
 	app.get('/selectTrxList', async (req: any, res: any) => {
@@ -133,8 +112,7 @@ main().then((ctx: any) => {
 	})
 
 	app.post('/insertTrx', async (req: any, res: any) => {
-		await transfer(ctx, req.body);
-		res.send(req.body);
+		res.send(await transfer(ctx, req.body).then(res => { return res }));
 	})
 
 	app.listen(port, () => {
@@ -212,8 +190,8 @@ async function getUser(contract: Contract, userId: string): Promise<any> {
 	return result;
 }
 
-async function updateUser(contract: Contract, address: string, property: string, value: any): Promise<void>{
-	await contract.submitTransaction('UpdateUser', address, property, value);
+async function updateUser(contract: Contract, address: string, balance: string, age: string, gender: string, job: string, status: string): Promise<any>{
+	return await contract.submitTransaction('UpdateUser', address, balance, age, gender, job, status);
 }
 
 async function getAllTransactions(contract: Contract): Promise<any> {
@@ -230,86 +208,10 @@ async function getWatchList(contract: Contract): Promise<any> {
         return result;
 }
 
-async function transfer(contract: Contract, payload: any): Promise<void> {
-	console.log('@@@@@@@@@@@@@222222')
-	console.log(payload.sender)
-	console.log(payload.receiver)
-	console.log(payload.amount)
-	await contract.submitTransaction('Transfer', payload.sender, payload.receiver, payload.amount);
-}
-
-/**
- * Submit a transaction synchronously, blocking until it has been committed to the ledger.
- */
-async function createAsset(contract: Contract): Promise<void> {
-    console.log('\n--> Submit Transaction: CreateAsset, creates new asset with ID, Color, Size, Owner and AppraisedValue arguments');
-
-    await contract.submitTransaction(
-        'CreateAsset',
-        assetId,
-        'yellow',
-        '5',
-        'Tom',
-        '1300',
-    );
-
-    console.log('*** Transaction committed successfully');
-}
-
-/**
- * Submit transaction asynchronously, allowing the application to process the smart contract response (e.g. update a UI)
- * while waiting for the commit notification.
- */
-async function transferAssetAsync(contract: Contract): Promise<void> {
-    console.log('\n--> Async Submit Transaction: TransferAsset, updates existing asset owner');
-
-    const commit = await contract.submitAsync('TransferAsset', {
-        arguments: [assetId, 'Saptha'],
-    });
-    const oldOwner = utf8Decoder.decode(commit.getResult());
-
-    console.log(`*** Successfully submitted transaction to transfer ownership from ${oldOwner} to Saptha`);
-    console.log('*** Waiting for transaction commit');
-
-    const status = await commit.getStatus();
-    if (!status.successful) {
-        throw new Error(`Transaction ${status.transactionId} failed to commit with status code ${status.code}`);
-    }
-
-    console.log('*** Transaction committed successfully');
-}
-
-
-
-async function readAssetByID(contract: Contract): Promise<void> {
-    console.log('\n--> Evaluate Transaction: ReadAsset, function returns asset attributes');
-
-    const resultBytes = await contract.evaluateTransaction('ReadAsset', assetId);
-
-    const resultJson = utf8Decoder.decode(resultBytes);
-    const result = JSON.parse(resultJson);
-    console.log('*** Result:', result);
-}
-
-/**
- * submitTransaction() will throw an error containing details of any error responses from the smart contract.
- */
-async function updateNonExistentAsset(contract: Contract): Promise<void>{
-    console.log('\n--> Submit Transaction: UpdateAsset asset70, asset70 does not exist and should return an error');
-
-    try {
-        await contract.submitTransaction(
-            'UpdateAsset',
-            'asset70',
-            'blue',
-            '5',
-            'Tomoko',
-            '300',
-        );
-        console.log('******** FAILED to return an error');
-    } catch (error) {
-        console.log('*** Successfully caught the error: \n', error);
-    }
+async function transfer(contract: Contract, payload: any): Promise<any> {
+	let result = await contract.submitTransaction('Transfer', payload.sender.trim(), payload.receiver.trim(), payload.amount.toString().trim());
+	let result2 = Object.keys(result).map((key: any) => String.fromCharCode(result[key])).join('');
+	return result2;
 }
 
 /**
