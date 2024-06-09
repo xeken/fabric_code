@@ -3085,11 +3085,11 @@ class AssetTransfer extends Contract {
         const sender = JSON.parse(await this.GetUser(ctx, tx.Sender));
         const receiver = JSON.parse(await this.GetUser(ctx, tx.Receiver));
 
-        tx.IsExecuted = true;
-        tx.Timestamp = this.GetTimestamp();
-
         if(sender.Balance < tx.Amount)
             return false;
+
+        tx.IsExecuted = true;
+        tx.Timestamp = this.GetTimestamp();
 
         sender.Balance -= tx.Amount;
         receiver.Balance += tx.Amount;
