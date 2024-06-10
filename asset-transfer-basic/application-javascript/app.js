@@ -153,8 +153,8 @@ async function main() {
 
 			console.log('\n--> 트랜스퍼 5');
 			result = await contract.submitTransaction('Transfer', 
-				'78e15f1699dbb6c8a438e90c02044cfa9b9233f3', 
-				'17732863dbd50ee07039048d05d1a144297492b2', '220000000');
+				'17732863dbd50ee07039048d05d1a144297492b2', 
+				'78e15f1699dbb6c8a438e90c02044cfa9b9233f3', '220000000');
 			console.log(`*** Result: ${prettyJSONString(result)}`);
 
 			// console.log('\n--> Update User');
