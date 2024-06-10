@@ -1,14 +1,10 @@
-[//]: # (SPDX-License-Identifier: CC-BY-4.0)
+# 의심거래 탐지시스템(Hyper-ledger based)
 
-# Hyperledger Fabric Samples
+['24-1학기] 가상자산 기술과 규제 과목의 팀프로젝트2[하이퍼레저 기반 송금 네트워크에 적용 가능한 의심거래탐지 시스템]를 위한 Repository임.
 
-[![Build Status](https://dev.azure.com/Hyperledger/Fabric-Samples/_apis/build/status/Fabric-Samples?branchName=main)](https://dev.azure.com/Hyperledger/Fabric-Samples/_build/latest?definitionId=28&branchName=main)
-
-You can use Fabric samples to get started working with Hyperledger Fabric, explore important Fabric features, and learn how to build applications that can interact with blockchain networks using the Fabric SDKs. To learn more about Hyperledger Fabric, visit the [Fabric documentation](https://hyperledger-fabric.readthedocs.io/en/latest).
-
-## License <a name="license"></a>
-
-Hyperledger Project source code files are made available under the Apache
-License, Version 2.0 (Apache-2.0), located in the [LICENSE](LICENSE) file.
-Hyperledger Project documentation files are made available under the Creative
-Commons Attribution 4.0 International License (CC-BY-4.0), available at http://creativecommons.org/licenses/by/4.0/.
+### 참여자
+|전공|학번|이름|링크|
+|------|---|---|---|
+|블록체인 전공|A68023|조병현|[@xeken](https://github.com/xeken|
+|블록체인 전공|A68024|조용수|@sulguy8|
+|블록체인 전공|A68025|최건휘|@Choikunhui|

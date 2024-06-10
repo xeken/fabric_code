@@ -2943,14 +2943,6 @@ class AssetTransfer extends Contract {
     }
 
     async AddUser(ctx, name, age, gender, job){ 
-        // const wlf = JSON.parse(this.GetWatchList(ctx));
-        // for(const index in wlf) {
-        //     const info = wlf[index];
-        //     if((name === info.Name) && (age === info.Age) &&
-        //         (gender === info.Gender) && (job === info.Job))
-        //         return false;
-        // }​
-        
         const timestamp = this.GetTimestamp();
         const user = {
             Owner: name,
