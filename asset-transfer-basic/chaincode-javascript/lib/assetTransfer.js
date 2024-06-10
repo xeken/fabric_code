@@ -3223,21 +3223,21 @@ class AssetTransfer extends Contract {
     CheckCode102(sender, txs) {
         const sendedTxs = txs.filter(tx => ((tx.Sender === sender.Address) && (tx.Amount >= 1000000) && (tx.Timestamp >= this._stamp1DayAgo)));
 
-        return (sendedTxs >= 5)
+        return (sendedTxs.length >= 5)
     }
 
     //[1일] 합산 [10회] 이상 가상자산 입금
     CheckCode105(receiver, txs) {
         const receivedTxs = txs.filter(tx => ((tx.Receiver === receiver.Address) && (tx.Timestamp >= this._stamp1DayAgo)));
 
-        return (receivedTxs >= 10)
+        return (receivedTxs.length >= 10)
     }
 
     //[1일] 합산 [10회] 이상 가상자산 출금
     CheckCode106(sender, txs) {
         const sendedTxs = txs.filter(tx => ((tx.Sender === sender.Address) && (tx.Timestamp >= this._stamp1DayAgo)));
 
-        return (sendedTxs >= 10)
+        return (sendedTxs.length >= 10)
     }
 
     //한 개의 지갑주소에 [7일]간 건당 [1백만 원] 이상이며 합산 [5개] 이상의 지갑 주소에서 가상자산 입금
