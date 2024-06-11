@@ -3123,8 +3123,8 @@ class AssetTransfer extends Contract {
         senderTxs.push(newTransaction);
         receiverTxs.push(newTransaction);
 
-        let stCode = 0;
-        let stSvrt = 0
+        let stCode = '';
+        let stSvrt = '';
         
         if(this.CheckCode119(sender, wlf, senderTxs)){
             stCode = 119;
@@ -3180,13 +3180,13 @@ class AssetTransfer extends Contract {
         }
         
         newTransaction.Timestamp = this.GetTimestamp();
-        newTransaction.IsSt = stCode != 0; /* boolean */
-        newTransaction.IsExecuted = (stCode == 0) ? true : false;
-        newTransaction.StCode = stCode; /* ST Rule Set Number */
+        newTransaction.IsSt = !(stCode === ''); 
+        newTransaction.IsExecuted = (stCode === '') ? true : false;
+        newTransaction.StCode = stCode; 
         newTransaction.StSvrt = stSvrt; /* 0: 미해당, 1: 경고 후 통과, 9: 거래 불가 */
         newTransaction.docType = "transaction";
 
-        const hash = crypto.createHash('sha256').update(JSON.stringify(newTransaction)).digest('hex');
+        const hash = crypto.createHash('sha256').update(JSON.stringify(newTransaction)).digest('hex').substring(0, 16);
         newTransaction.TxId = hash;
         
         sender.Txs.push(hash);
